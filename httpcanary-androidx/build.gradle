@@ -1,0 +1,106 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+version = "1.0.0"
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 100
+        versionName "1.0.0"
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation('net.lightbody.bmp:littleproxy:1.1.0-beta-bmp-17') {
+        exclude group: 'io.netty'
+    }
+    implementation files('libs/netty-all-android-4.0.44.Final.jar')
+    implementation 'org.slf4j:slf4j-log4j12:1.7.21'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.6'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
+    implementation 'com.google.guava:guava:24.1-jre'
+}
+
+
+def siteUrl = 'https://github.com/guxiaonian/HttpCanary'
+def gitUrl = 'https://github.com/guxiaonian/HttpCanary.git'
+group = "fairy.easy.httpcanary"
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'jar'
+                name 'Android'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'mobile'
+                        name 'mobile'
+                        email 'gunaonian@geetest.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user =  properties.getProperty("bintray.user")
+    key =  properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "httpcanary"
+        name = "httpcanaryAndroidX"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
