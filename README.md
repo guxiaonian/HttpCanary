@@ -45,8 +45,7 @@ public class App extends Application {
 # 注意事项
 
 1. targetSdkVersion设置为28以下
-2. 设置multiDexEnabled为true
-3. 添加1.8版本
+2. 添加1.8版本
 
 ```gradle
  compileOptions {
