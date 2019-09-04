@@ -114,7 +114,7 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         previewAdapter.setList();
-//        insertPem();
+        insertPem();
 
     }
 
@@ -176,7 +176,7 @@ public class PreviewActivity extends AppCompatActivity {
                     finish();
                 }
             }
-            insertPem();
+//            insertPem();
 
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
