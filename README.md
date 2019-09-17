@@ -2,7 +2,7 @@
 
 ## HttpCanary
 
-**`Android`Crash日志打印输出**
+**`Android`网络请求日志打印输出**
 
 [![Download](https://api.bintray.com/packages/guxiaonian/httpcanary/httpcanary/images/download.svg) ](https://bintray.com/guxiaonian/httpcanary/httpcanary/_latestVersion)
 [![GitHub issues](https://img.shields.io/github/issues/guxiaonian/HttpCanary.svg)](https://github.com/guxiaonian/HttpCanary/issues)
