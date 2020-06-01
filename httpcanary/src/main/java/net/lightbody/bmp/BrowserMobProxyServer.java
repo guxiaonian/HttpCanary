@@ -433,7 +433,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
     @Override
     public InetAddress getClientBindAddress() {
         if (started.get()) {
-            return proxyServer.getListenAddress().getAddress();
+            return proxyServer==null?null:proxyServer.getListenAddress()==null?null:proxyServer.getListenAddress().getAddress();
         } else {
             return null;
         }
@@ -442,7 +442,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
     @Override
     public int getPort() {
         if (started.get()) {
-            return proxyServer.getListenAddress().getPort();
+            return proxyServer==null?0:proxyServer.getListenAddress()==null?0:proxyServer.getListenAddress().getPort();
         } else {
             return 0;
         }

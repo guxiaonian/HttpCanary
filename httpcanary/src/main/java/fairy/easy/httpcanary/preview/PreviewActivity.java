@@ -12,8 +12,12 @@ import android.os.Environment;
 import android.security.KeyChain;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +37,7 @@ public class PreviewActivity extends AppCompatActivity {
     private static final int RESULT_PERMISSIONS = 1;
     private PreviewAdapter previewAdapter;
     private ListView listView;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,25 @@ public class PreviewActivity extends AppCompatActivity {
         setContentView(R.layout.http_canary_activity_preview);
         checkPermission();
         listView = findViewById(R.id.http_canary_list);
+        editText = findViewById(R.id.http_canary_et);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!TextUtils.isEmpty(charSequence)) {
+                    previewAdapter.getFilter().filter(charSequence);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         setTitle(String.format(getResources().getString(R.string.http_canary_title), getApplicationContext().getPackageName()));
         findViewById(R.id.http_canary_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +137,12 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         previewAdapter.setList();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                previewAdapter.notifyDataSetChanged();
+            }
+        });
         insertPem();
 
     }
@@ -122,10 +152,10 @@ public class PreviewActivity extends AppCompatActivity {
         if (requestCode == 3) {
             if (resultCode == Activity.RESULT_OK) {
                 SharedPreferencesUtils.put(this, "isInstallNewCert", true);
-                Toast.makeText(this, "安装成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Successful installation", Toast.LENGTH_LONG).show();
                 ProxyUtils.setProxyLollipop(this, "127.0.0.1", HttpCanary.getHttpCanaryFactory().getProxyPort());
             } else {
-                Toast.makeText(this, "安装失败", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "installation failed", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -161,7 +191,7 @@ public class PreviewActivity extends AppCompatActivity {
             }
         };
         if (!isInstallCert) {
-            Toast.makeText(this, "必须安装证书才可实现HTTPS抓包", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Certificate must be installed to achieve HTTPS packet capture", Toast.LENGTH_LONG).show();
             runnable.run();
         }
     }
@@ -171,7 +201,7 @@ public class PreviewActivity extends AppCompatActivity {
         if (requestCode == RESULT_PERMISSIONS) {
             for (int g : grantResults) {
                 if (g != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "请给予权限之后进入APP", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Please give permission to enter the APP", Toast.LENGTH_LONG).show();
                     finish();
                 }
             }

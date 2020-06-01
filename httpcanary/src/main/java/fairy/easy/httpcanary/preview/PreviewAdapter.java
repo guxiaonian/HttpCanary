@@ -26,7 +26,7 @@ import fairy.easy.httpcanary.R;
 public class PreviewAdapter extends BaseAdapter implements Filterable {
 
     private final Context mContext;
-    private List<HarEntry> harEntryList=new ArrayList<>();
+    private List<HarEntry> harEntryList = new ArrayList<>();
     private HarLog harLog;
 
     public PreviewAdapter(Context mContext) {
@@ -41,9 +41,10 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
     public void setList() {
         if (HttpCanary.getHttpCanaryFactory().getInitProxy()) {
             harLog = HttpCanary.getHttpCanaryFactory().getProxy().getHar().getLog();
-            harEntryList = harLog.getEntries();
+            harEntryList.clear();
+            harEntryList.addAll(harLog.getEntries());
         }
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

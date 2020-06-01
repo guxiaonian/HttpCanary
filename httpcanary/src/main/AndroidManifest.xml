@@ -15,6 +15,7 @@
             android:enabled="false"
             android:icon="@drawable/http_canary_icon"
             android:label="@string/http_canary_display_activity_label"
+            android:screenOrientation="portrait"
             android:taskAffinity="fairy.easy.httpcanary"
             android:theme="@style/http_canary_LogCanary.Base">
             <intent-filter>
@@ -24,6 +25,7 @@
         </activity>
         <activity
             android:name=".preview.HarDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/http_canary_LogCanary.Base" />
     </application>
 
