@@ -3,6 +3,6 @@
     <string name="http_canary_delete_all">Delete all</string>
     <string name="http_canary_title">Http in %s</string>
     <string name="http_canary_message">Are you sure you want to delete all Https</string>
-    <string name="http_canary_no">取消</string>
-    <string name="http_canary_yes">确定</string>
+    <string name="http_canary_no">Cancel</string>
+    <string name="http_canary_yes">Ok</string>
 </resources>

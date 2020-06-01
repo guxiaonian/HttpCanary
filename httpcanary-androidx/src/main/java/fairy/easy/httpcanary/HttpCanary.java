@@ -12,7 +12,7 @@ public class HttpCanary {
 
     private static HttpCanaryFactory httpCanaryFactory;
 
-    public static void install(Context context) {
+    static void install(Context context) {
         HttpModel.setEnabled(context, PreviewActivity.class, true);
         httpCanaryFactory = new HttpCanaryFactory(context);
 

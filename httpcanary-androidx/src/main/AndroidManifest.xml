@@ -1,9 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fairy.easy.httpcanary">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
+        <provider
+            android:name="fairy.easy.httpcanary.HttpProvider"
+            android:authorities="fairy.easy.httpcanary.HttpProvider.${applicationId}"
+            android:exported="false" />
+
         <activity
             android:name=".preview.PreviewActivity"
             android:enabled="false"

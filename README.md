@@ -2,7 +2,7 @@
 
 ## HttpCanary
 
-**`Android`Http日志打印输出**
+**`Android`Http请求打印输出**
 
 [![Download](https://api.bintray.com/packages/guxiaonian/httpcanary/httpcanary/images/download.svg) ](https://bintray.com/guxiaonian/httpcanary/httpcanary/_latestVersion)
 [![GitHub issues](https://img.shields.io/github/issues/guxiaonian/HttpCanary.svg)](https://github.com/guxiaonian/HttpCanary/issues)
@@ -24,23 +24,8 @@
 
 ```gradle
 debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
-releaseImplementation  'fairy.easy.httpcanary:httpcanary-no-op:{latestVersion}'
 //androidX使用
 //debugImplementation  'fairy.easy.httpcanary:httpcanary-androidx:{latestVersion}'
-
-```
-      
-# 调用方式
-
-```java
-public class App extends Application {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        HttpCanary.install(this);
-    }
-}
 
 ```
 

@@ -1,12 +1,15 @@
 package fairy.easy.httpcanary;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Environment;
 
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.proxy.CaptureType;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+import fairy.easy.httpcanary.util.LifecycleCallbacks;
 import fairy.easy.httpcanary.util.ProxyUtils;
 import fairy.easy.httpcanary.util.SharedPreferencesUtils;
 
@@ -29,6 +33,10 @@ public class HttpCanaryFactory {
         this.mContext = mContext;
         if ((boolean) SharedPreferencesUtils.get(mContext, "isInstallNewCert", false)) {
             initProxy(null);
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+                Application app= (Application) mContext.getApplicationContext();
+                app.registerActivityLifecycleCallbacks(new LifecycleCallbacks());
+            }
         }
     }
 

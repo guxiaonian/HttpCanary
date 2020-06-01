@@ -1,6 +1,7 @@
 package fairy.easy.httpcanary.preview;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import net.lightbody.bmp.core.har.HarResponse;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.R;
 
@@ -68,10 +70,7 @@ public class HarDetailActivity extends AppCompatActivity {
 
         addItem("Request Header");
         for (HarNameValuePair pair : harRequest.getHeaders()) {
-            // 不显示cookie
-            if (!pair.getName().equals("Cookie")) {
-                addItem(pair.getName(), pair.getDecodeValue());
-            }
+            addItem(pair.getName(), pair.getDecodeValue());
         }
 
         if (harRequest.getCookies().size() > 0) {
@@ -88,21 +87,19 @@ public class HarDetailActivity extends AppCompatActivity {
                 addItem("PostData", harRequest.getPostData().getText());
             }
 
-//            if (harRequest.getPostData().getParams() != null
-//                    && harRequest.getPostData().getParams().size() > 0) {
-//                addItem("Request PostData");
-//
-//                for (HarPostDataParam pair : harRequest.getPostData().getParams()) {
-//                    addItem(pair.getName(), pair.getValue());
-//                }
-//            }
+            if (harRequest.getPostData().getParams() != null
+                    && harRequest.getPostData().getParams().size() > 0) {
+                addItem("Request PostData");
+
+                for (HarPostDataParam pair : harRequest.getPostData().getParams()) {
+                    addItem(pair.getName(), pair.getValue());
+                }
+            }
         }
 
         addItem("Response Header");
         for (HarNameValuePair pair : harResponse.getHeaders()) {
-            if (!pair.getName().equals("Cookie")) {
-                addItem(pair.getName(), pair.getDecodeValue());
-            }
+            addItem(pair.getName(), pair.getDecodeValue());
         }
 
         if (harResponse.getCookies().size() > 0) {
@@ -129,10 +126,10 @@ public class HarDetailActivity extends AppCompatActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.http_canary_item_detail, null);
 
         TextView textView = view.findViewById(R.id.http_canary_tv_title);
-        textView.setText(title);
+        textView.setText(TextUtils.isEmpty(title) ? "placeholder" : title);
 
         TextView valueTextView = view.findViewById(R.id.http_canary_tv_value);
-        valueTextView.setText(value);
+        valueTextView.setText(TextUtils.isEmpty(value) ? "placeholder" : value);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
