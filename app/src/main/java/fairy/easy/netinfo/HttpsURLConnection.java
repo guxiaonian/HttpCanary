@@ -1,46 +1,35 @@
 package fairy.easy.netinfo;
 
 
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * Created by 谷闹年 on 2017/8/30.
- * 请求工具类
- */
+public class HttpsURLConnection {
 
+    public static void useHttpsURLConnection() {
 
-public class HttpUrlUtils {
-    /**
-     * get请求
-     *
-     * @param getURL
-     * @return
-     */
-    public static String readContentFromGet(String getURL) {
-
-        URL url = getValidateURL(getURL);
+        URL url = getValidateURL(App.HTTPS);
         try {
-            HttpsURLConnection httpsURLConnection = null;
+            javax.net.ssl.HttpsURLConnection httpsURLConnection = null;
             try {
                 final StringBuffer sBuffer = new StringBuffer();
                 SSLContext sslContext = SSLContext.getInstance("TLS");
                 sslContext.init(null, new TrustManager[]{new TrustAllManager()}, null);
 
-                HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-                HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+                javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
 
                     @Override
                     public boolean verify(String arg0, SSLSession arg1) {
@@ -48,7 +37,7 @@ public class HttpUrlUtils {
                     }
                 });
 
-                httpsURLConnection = (HttpsURLConnection) url.openConnection();
+                httpsURLConnection = (javax.net.ssl.HttpsURLConnection) url.openConnection();
 
                 httpsURLConnection.setDoInput(true);
                 httpsURLConnection.setDoOutput(false);
@@ -70,14 +59,14 @@ public class HttpUrlUtils {
 
                 int responseCode = httpsURLConnection.getResponseCode();
 
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    return sBuffer.toString();
+                if (responseCode == javax.net.ssl.HttpsURLConnection.HTTP_OK) {
+                    Log.e(App.TAG, sBuffer.toString());
                 } else {
-                    return responseCode + "";
+                    Log.e(App.TAG, responseCode + "");
                 }
 
             } catch (Exception e) {
-                return e.toString();
+                e.printStackTrace();
             } finally {
                 if (httpsURLConnection != null) {
                     httpsURLConnection.disconnect();
@@ -85,17 +74,11 @@ public class HttpUrlUtils {
             }
 
         } catch (Exception e) {
-            return "error:" + e.toString();
+            e.printStackTrace();
         }
 
     }
 
-    /**
-     * 数据流
-     *
-     * @param inputStream
-     * @return
-     */
     private static String dealResponseResult(InputStream inputStream) {
         String resultData;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -113,9 +96,6 @@ public class HttpUrlUtils {
         return resultData;
     }
 
-    /**
-     * X509证书
-     */
     private static class TrustAllManager implements X509TrustManager {
 
         @Override
@@ -137,12 +117,6 @@ public class HttpUrlUtils {
         }
     }
 
-    /**
-     * url获取
-     *
-     * @param urlString
-     * @return
-     */
     private static URL getValidateURL(String urlString) {
         try {
             return new URL(urlString);

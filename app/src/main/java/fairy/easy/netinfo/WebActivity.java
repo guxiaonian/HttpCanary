@@ -23,7 +23,7 @@ public class WebActivity extends AppCompatActivity {
         WebSettings webSettings=webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        webView.loadUrl("https://www.baidu.com");
+        webView.loadUrl(App.HTTPS);
 
 
     }

@@ -27,5 +27,7 @@ dependencies {
 //    implementation project(path: ':httpcanary')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation project(path: ':httpcanary-androidx')
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation 'com.android.volley:volley:1.1.1'
 
 }
