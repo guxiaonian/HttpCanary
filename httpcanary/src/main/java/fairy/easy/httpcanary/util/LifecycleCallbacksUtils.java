@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 import fairy.easy.httpcanary.HttpCanary;
 
 
-public class LifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
+public class LifecycleCallbacksUtils implements Application.ActivityLifecycleCallbacks {
 
 
     @Override
