@@ -19,6 +19,9 @@ import net.lightbody.bmp.core.har.HarPostDataParam;
 import net.lightbody.bmp.core.har.HarRequest;
 import net.lightbody.bmp.core.har.HarResponse;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.R;
 
@@ -55,9 +58,12 @@ public class HarDetailActivity extends AppCompatActivity {
         addItem("Overview");
         addItem("URL", harRequest.getUrl());
         setTitle(harRequest.getUrl());
+        addItem("ServerIP",harEntry.getServerIPAddress()+" ");
         addItem("Method", harRequest.getMethod());
         addItem("Code", harResponse.getStatus() + "");
         addItem("TotalTime", harEntry.getTime() + "ms");
+        addItem("StartTime",  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
+                .format(harEntry.getStartedDateTime().getTime())+ "ms");
         addItem("Size", harResponse.getBodySize() + "Bytes");
 
         if (harRequest.getQueryString().size() > 0) {

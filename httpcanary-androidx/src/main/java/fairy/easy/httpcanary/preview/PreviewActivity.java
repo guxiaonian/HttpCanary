@@ -3,6 +3,7 @@ package fairy.easy.httpcanary.preview;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,9 +27,11 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.HttpCanaryFactory;
 import fairy.easy.httpcanary.R;
+import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
 import fairy.easy.httpcanary.util.PermissionsUtils;
 import fairy.easy.httpcanary.util.ProxyUtils;
 import fairy.easy.httpcanary.util.SharedPreferencesUtils;
@@ -155,6 +158,10 @@ public class PreviewActivity extends AppCompatActivity {
                 SharedPreferencesUtils.put(this, "isInstallNewCert", true);
                 Toast.makeText(this, "Successful installation", Toast.LENGTH_LONG).show();
                 ProxyUtils.setProxyLollipop(this, "127.0.0.1", HttpCanary.getHttpCanaryFactory().getProxyPort());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    Application app = (Application) getApplicationContext();
+                    app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
+                }
             } else {
                 Toast.makeText(this, "installation failed", Toast.LENGTH_LONG).show();
             }
@@ -184,7 +191,7 @@ public class PreviewActivity extends AppCompatActivity {
 
                     Intent intent = KeyChain.createInstallIntent();
                     intent.putExtra(KeyChain.EXTRA_CERTIFICATE, keychainBytes);
-                    intent.putExtra(KeyChain.EXTRA_NAME, "NetworkDiagnosis CA Certificate");
+                    intent.putExtra(KeyChain.EXTRA_NAME, "Network CA Certificate For Https");
                     startActivityForResult(intent, 3);
                 } catch (Exception e) {
                     e.printStackTrace();
