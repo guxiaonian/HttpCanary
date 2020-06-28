@@ -40,3 +40,6 @@ debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
         sourceCompatibility 1.8
     }
 ```
+
+# 与普通抓包工具区别
+本SDK目的是抓当前APP的数据流量, 重在开发APP的开发阶段进行测试使用。
