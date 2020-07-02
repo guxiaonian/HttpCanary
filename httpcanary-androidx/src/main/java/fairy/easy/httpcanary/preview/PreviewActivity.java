@@ -35,6 +35,7 @@ import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
 import fairy.easy.httpcanary.util.PermissionsUtils;
 import fairy.easy.httpcanary.util.ProxyUtils;
 import fairy.easy.httpcanary.util.SharedPreferencesUtils;
+import fairy.easy.httpcanary.util.SystemCertsUtils;
 
 
 public class PreviewActivity extends AppCompatActivity {
@@ -162,6 +163,7 @@ public class PreviewActivity extends AppCompatActivity {
                     Application app = (Application) getApplicationContext();
                     app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
                 }
+//                SystemCertsUtils.buildSystemCerts(getApplicationContext());
             } else {
                 Toast.makeText(this, "installation failed", Toast.LENGTH_LONG).show();
             }
