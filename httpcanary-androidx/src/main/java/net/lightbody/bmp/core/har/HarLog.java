@@ -1,5 +1,7 @@
 package net.lightbody.bmp.core.har;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import net.lightbody.bmp.BrowserMobProxyServer;
@@ -14,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HarLog {
     private final String version = "1.2";
-    private volatile HarNameVersion creator  = new HarNameVersion("BrowserMob Proxy", BrowserMobProxyUtil.getVersionString());
+    private volatile HarNameVersion creator = new HarNameVersion("BrowserMob Proxy", BrowserMobProxyUtil.getVersionString());
     private volatile HarNameVersion browser;
     private List<HarPage> pages = new CopyOnWriteArrayList<HarPage>();
     private List<HarEntry> entries = new CopyOnWriteArrayList<HarEntry>();
@@ -33,38 +35,40 @@ public class HarLog {
         pages.add(page);
     }
 
-    public Boolean deletePage(HarPage page){
+    public Boolean deletePage(HarPage page) {
         return pages.remove(page);
     }
 
     public synchronized void addEntry(HarEntry entry) {
         int count = 0;
-        for (HarEntry har:entries) {
+        for (HarEntry har : entries) {
             if (entry.getPageref().equals(har.getPageref())) {
                 count++;
             }
         }
-        if(count >= 999) {
-            if(server!=null){
+        if (count >= 999) {
+            if (server != null) {
                 String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
                         .format(new Date(System.currentTimeMillis()));
 
                 // 检查是否存在重复添加
-                Boolean repeatAdd = false;
-                for (HarPage page:pages) {
-                    if(page.getId().equals(time)){
+                boolean repeatAdd = false;
+                for (HarPage page : pages) {
+                    if (page.getId().equals(time)) {
                         repeatAdd = true;
                     }
                 }
-                if(!repeatAdd) {
+                if (!repeatAdd) {
                     server.newPage(time);
                 }
             }
         }
+        //TODO   数据上报
+//        Log.e("SSSSSSS",entry.getRequest().getUrl()+"null");
         entries.add(entry);
     }
 
-    public void clearAllEntries(){
+    public void clearAllEntries() {
         entries.clear();
     }
 

@@ -188,7 +188,6 @@ public class HarCaptureFilter extends HttpsAwareFiltersAdapter {
             // link the object up now, before we make the request, so that if we get cut off (ie: favicon.ico request and browser shuts down)
             // we still have the attempt associated, even if we never got a response
             harEntry.setStartedDateTime(new Date());
-            har.getLog().addEntry(harEntry);
 
             HttpRequest httpRequest = (HttpRequest) httpObject;
             this.capturedOriginalRequest = httpRequest;
@@ -221,6 +220,7 @@ public class HarCaptureFilter extends HttpsAwareFiltersAdapter {
             // HTTP CONNECT is not recorded in a separate HarEntry (except in case of error). Instead, the ssl and
             // connect times are recorded in the first request between the client and remote server after the HTTP CONNECT.
             captureConnectTiming();
+            har.getLog().addEntry(harEntry);
         }
 
         if (httpObject instanceof HttpContent) {

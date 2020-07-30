@@ -155,13 +155,12 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
         // since this is a CONNECT, which is not handled by the HarCaptureFilter, we need to create and populate the
         // entire HarEntry and add it to this har.
         HarEntry harEntry = createHarEntryForFailedCONNECT(HarCaptureUtil.getResolutionFailedErrorMessage(hostAndPort));
-        har.getLog().addEntry(harEntry);
 
         // record the amount of time we attempted to resolve the hostname in the HarTimings object
         if (dnsResolutionStartedNanos > 0L) {
             harEntry.getTimings().setDns(System.nanoTime() - dnsResolutionStartedNanos, TimeUnit.NANOSECONDS);
         }
-
+        har.getLog().addEntry(harEntry);
         httpConnectTimes.remove(clientAddress);
     }
 
@@ -170,13 +169,12 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
         // since this is a CONNECT, which is not handled by the HarCaptureFilter, we need to create and populate the
         // entire HarEntry and add it to this har.
         HarEntry harEntry = createHarEntryForFailedCONNECT(HarCaptureUtil.getConnectionFailedErrorMessage());
-        har.getLog().addEntry(harEntry);
 
         // record the amount of time we attempted to connect in the HarTimings object
         if (connectionStartedNanos > 0L) {
             harEntry.getTimings().setConnect(System.nanoTime() - connectionStartedNanos, TimeUnit.NANOSECONDS);
         }
-
+        har.getLog().addEntry(harEntry);
         httpConnectTimes.remove(clientAddress);
     }
 
@@ -205,7 +203,6 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
     @Override
     public void serverToProxyResponseTimedOut() {
         HarEntry harEntry = createHarEntryForFailedCONNECT(HarCaptureUtil.getResponseTimedOutErrorMessage());
-        har.getLog().addEntry(harEntry);
 
         // include this timeout time in the HarTimings object
         long timeoutTimestampNanos = System.nanoTime();
@@ -222,6 +219,7 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
         else if (responseReceiveStartedNanos > 0L) {
             harEntry.getTimings().setReceive(timeoutTimestampNanos - responseReceiveStartedNanos, TimeUnit.NANOSECONDS);
         }
+        har.getLog().addEntry(harEntry);
     }
 
     @Override

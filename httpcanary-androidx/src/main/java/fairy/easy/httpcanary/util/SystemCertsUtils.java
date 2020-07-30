@@ -35,6 +35,7 @@ public class SystemCertsUtils {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e("SSSSSS",e.toString());
         } finally {
             if (inputStream != null) {
                 try {
@@ -82,6 +83,7 @@ public class SystemCertsUtils {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e("SSSSSS",e.toString());
         } finally {
             if (os != null) {
                 try {
