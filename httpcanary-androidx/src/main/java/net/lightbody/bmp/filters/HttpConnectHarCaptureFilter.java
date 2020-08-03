@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
+import fairy.easy.httpcanary.util.PackageUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpRequest;
@@ -160,7 +161,7 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
         if (dnsResolutionStartedNanos > 0L) {
             harEntry.getTimings().setDns(System.nanoTime() - dnsResolutionStartedNanos, TimeUnit.NANOSECONDS);
         }
-        har.getLog().addEntry(harEntry);
+        har.getLog().addEntry(harEntry,clientAddress);
         httpConnectTimes.remove(clientAddress);
     }
 
@@ -174,7 +175,7 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
         if (connectionStartedNanos > 0L) {
             harEntry.getTimings().setConnect(System.nanoTime() - connectionStartedNanos, TimeUnit.NANOSECONDS);
         }
-        har.getLog().addEntry(harEntry);
+        har.getLog().addEntry(harEntry,clientAddress);
         httpConnectTimes.remove(clientAddress);
     }
 
@@ -219,7 +220,7 @@ public class HttpConnectHarCaptureFilter extends HttpsAwareFiltersAdapter implem
         else if (responseReceiveStartedNanos > 0L) {
             harEntry.getTimings().setReceive(timeoutTimestampNanos - responseReceiveStartedNanos, TimeUnit.NANOSECONDS);
         }
-        har.getLog().addEntry(harEntry);
+        har.getLog().addEntry(harEntry,clientAddress);
     }
 
     @Override

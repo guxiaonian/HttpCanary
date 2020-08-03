@@ -1,5 +1,7 @@
 package net.lightbody.bmp.filters;
 
+import android.util.Log;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding;
 
@@ -34,6 +36,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fairy.easy.httpcanary.util.PackageUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpContent;
@@ -190,6 +193,7 @@ public class HarCaptureFilter extends HttpsAwareFiltersAdapter {
             harEntry.setStartedDateTime(new Date());
 
             HttpRequest httpRequest = (HttpRequest) httpObject;
+
             this.capturedOriginalRequest = httpRequest;
 
             // associate this request's HarRequest object with the har entry
@@ -220,7 +224,7 @@ public class HarCaptureFilter extends HttpsAwareFiltersAdapter {
             // HTTP CONNECT is not recorded in a separate HarEntry (except in case of error). Instead, the ssl and
             // connect times are recorded in the first request between the client and remote server after the HTTP CONNECT.
             captureConnectTiming();
-            har.getLog().addEntry(harEntry);
+            har.getLog().addEntry(harEntry,clientAddress);
         }
 
         if (httpObject instanceof HttpContent) {

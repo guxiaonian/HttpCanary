@@ -18,10 +18,21 @@ public class HarEntry {
     private volatile HarTimings timings = new HarTimings();
     private volatile String serverIPAddress;
     private volatile String connection;
+    private volatile String port2PackageName;
+
+    public String getPort2PackageName() {
+        return port2PackageName;
+    }
+
+    public void setPort2PackageName(String port2PackageName) {
+        this.port2PackageName = port2PackageName;
+    }
+
     private volatile String comment = "";
 
     public HarEntry() {
     }
+
 
     public HarEntry(String pageref) {
         this.pageref = pageref;

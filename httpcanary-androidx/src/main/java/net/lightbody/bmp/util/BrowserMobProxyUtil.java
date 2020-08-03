@@ -77,7 +77,7 @@ public class BrowserMobProxyUtil {
         // lists, we are guaranteed that we will iterate through the pages and entries in the proper order
         for (HarEntry entry : har.getLog().getEntries()) {
             if (pageRefsToCopy.contains(entry.getPageref())) {
-                logCopy.addEntry(entry);
+                logCopy.addEntry(entry,null);
             }
         }
 

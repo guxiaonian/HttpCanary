@@ -7,11 +7,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import net.lightbody.bmp.BrowserMobProxyServer;
 import net.lightbody.bmp.util.BrowserMobProxyUtil;
 
+import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import fairy.easy.httpcanary.util.PackageUtils;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HarLog {
@@ -39,32 +42,34 @@ public class HarLog {
         return pages.remove(page);
     }
 
-    public synchronized void addEntry(HarEntry entry) {
-        int count = 0;
-        for (HarEntry har : entries) {
-            if (entry.getPageref().equals(har.getPageref())) {
-                count++;
-            }
+    public synchronized void addEntry(HarEntry entry, InetSocketAddress inetSocketAddress) {
+        if (inetSocketAddress != null) {
+            entry.setPort2PackageName(PackageUtils.getUid(inetSocketAddress.getPort()));
         }
-        if (count >= 999) {
-            if (server != null) {
-                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
-                        .format(new Date(System.currentTimeMillis()));
-
-                // 检查是否存在重复添加
-                boolean repeatAdd = false;
-                for (HarPage page : pages) {
-                    if (page.getId().equals(time)) {
-                        repeatAdd = true;
-                    }
-                }
-                if (!repeatAdd) {
-                    server.newPage(time);
-                }
-            }
-        }
+//        int count = 0;
+//        for (HarEntry har : entries) {
+//            if (entry.getPageref().equals(har.getPageref())) {
+//                count++;
+//            }
+//        }
+//        if (count >= 999) {
+//            if (server != null) {
+//                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
+//                        .format(new Date(System.currentTimeMillis()));
+//
+//                // 检查是否存在重复添加
+//                boolean repeatAdd = false;
+//                for (HarPage page : pages) {
+//                    if (page.getId().equals(time)) {
+//                        repeatAdd = true;
+//                    }
+//                }
+//                if (!repeatAdd) {
+//                    server.newPage(time);
+//                }
+//            }
+//        }
         //TODO   数据上报
-//        Log.e("SSSSSSS",entry.getRequest().getUrl()+"null");
         entries.add(entry);
     }
 

@@ -32,6 +32,7 @@ import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.HttpCanaryFactory;
 import fairy.easy.httpcanary.R;
 import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
+import fairy.easy.httpcanary.util.PackageUtils;
 import fairy.easy.httpcanary.util.PermissionsUtils;
 import fairy.easy.httpcanary.util.ProxyUtils;
 import fairy.easy.httpcanary.util.SharedPreferencesUtils;
@@ -49,6 +50,7 @@ public class PreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.http_canary_activity_preview);
         checkPermission();
+        PackageUtils.setContext(getApplicationContext());
         listView = findViewById(R.id.http_canary_list);
         editText = findViewById(R.id.http_canary_et);
         editText.addTextChangedListener(new TextWatcher() {

@@ -98,8 +98,8 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
         } else {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
         }
-        holder.detailTextView.setText(String.format("Status:%d Size:%dBytes Time:%dms\n%s", harEntry.getResponse().getStatus(), harEntry.getResponse().getBodySize(), harEntry.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
-                .format(harEntry.getStartedDateTime().getTime())));
+        holder.detailTextView.setText(String.format("Status:%d Size:%dBytes Time:%dms\n%s \n%s", harEntry.getResponse().getStatus(), harEntry.getResponse().getBodySize(), harEntry.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
+                .format(harEntry.getStartedDateTime().getTime()),harEntry.getPort2PackageName()));
         return convertView;
     }
 
