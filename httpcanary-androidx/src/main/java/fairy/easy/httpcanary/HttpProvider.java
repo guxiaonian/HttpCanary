@@ -9,6 +9,8 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import fairy.easy.httpcanary.util.CommandUtils;
+
 public class HttpProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
@@ -16,6 +18,7 @@ public class HttpProvider extends ContentProvider {
         if (context != null) {
             HttpCanary.install(context);
         }
+        CommandUtils.getSingleInstance().exec("");
         return true;
     }
 

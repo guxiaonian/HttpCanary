@@ -1,5 +1,7 @@
 package fairy.easy.httpcanary.util;
 
+import android.os.Build;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -21,7 +23,7 @@ public class CommandUtils {
         BufferedInputStream bufferedInputStream = null;
         Process process = null;
         try {
-            process = Runtime.getRuntime().exec("su");
+            process = Runtime.getRuntime().exec(Build.VERSION.SDK_INT >= 29 ? "su" : "sh");
             bufferedOutputStream = new BufferedOutputStream(process.getOutputStream());
 
             bufferedInputStream = new BufferedInputStream(process.getInputStream());
