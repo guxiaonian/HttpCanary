@@ -19,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), WebActivity.class));
+                Intent intent=new Intent(getApplicationContext(), WebActivity.class);
+                intent.putExtra("SSS",1);
+                startActivity(intent);
             }
         });
 

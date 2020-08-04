@@ -30,6 +30,7 @@ import fairy.easy.httpcanary.HttpCanaryFactory;
 import fairy.easy.httpcanary.R;
 import fairy.easy.httpcanary.util.CommandUtils;
 import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
+import fairy.easy.httpcanary.util.PackageUtils;
 import fairy.easy.httpcanary.util.PermissionsUtils;
 import fairy.easy.httpcanary.util.ProxyUtils;
 import fairy.easy.httpcanary.util.SharedPreferencesUtils;
@@ -64,6 +65,7 @@ public class SettingActivity extends AppCompatActivity {
         btnGo = findViewById(R.id.http_canary_go_btn);
         btnGlobal = findViewById(R.id.http_canary_global_btn);
         btnGenerate = findViewById(R.id.http_canary_generate_btn);
+        PackageUtils.setContext(getApplicationContext());
         if (PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             btnPermission.setEnabled(false);
             btnGenerate.setEnabled(true);
@@ -130,7 +132,7 @@ public class SettingActivity extends AppCompatActivity {
         btnSu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = CommandUtils.getSingleInstance().exec("ps",true);
+                String result = CommandUtils.getSingleInstance().exec("ps", true);
                 if (!TextUtils.isEmpty(result)) {
                     SharedPreferencesUtils.put(getApplicationContext(), "wri_ps", true);
                     btnSu.setEnabled(false);
@@ -146,10 +148,14 @@ public class SettingActivity extends AppCompatActivity {
         btnMigration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CommandUtils.getSingleInstance().exec("ps",true);
-                boolean result = SystemCertsUtils.buildSystemCerts(getApplicationContext());
-                if (result) {
+                if (SystemCertsUtils.hasCert()) {
                     btnMigration.setEnabled(false);
+                } else {
+                    CommandUtils.getSingleInstance().exec("ps", true);
+                    boolean result = SystemCertsUtils.buildSystemCerts(getApplicationContext());
+                    if (result) {
+                        btnMigration.setEnabled(false);
+                    }
                 }
             }
         });
@@ -157,7 +163,6 @@ public class SettingActivity extends AppCompatActivity {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProxyUtils.setProxyLollipop(getApplicationContext(), "127.0.0.1", HttpCanary.getHttpCanaryFactory().getProxyPort());
                 startActivity(new Intent(getApplicationContext(), PreviewActivity.class));
             }
         });
