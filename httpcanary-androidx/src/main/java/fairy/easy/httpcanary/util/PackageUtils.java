@@ -2,6 +2,7 @@ package fairy.easy.httpcanary.util;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class PackageUtils {
@@ -16,6 +17,29 @@ public class PackageUtils {
         PackageUtils.context = context;
     }
 
+    private static String getTcp(String portHex) {
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex);
+        if (tcpResult == null) {
+            Log.e("SSSSSSS", "tcp4 is null");
+            return null;
+        } else {
+            Log.e("SSSSSSSStcp4", tcpResult);
+            String[] strings = tcpResult.split("\n");
+            for (String s : strings) {
+                int i = s.indexOf(portHex);
+                if (i == 14) {
+                    String uid = s.substring(76, 82).replace(" ", "");
+                    Log.e("SSSSSSS", "uid is: " + uid);
+                    String appName = getAppName(Integer.parseInt(uid));
+                    Log.e("SSSSSSS", "app is: " + appName);
+                    return appName;
+                }
+                Log.e("SSSSSSS", "tcp4 strings null");
+            }
+        }
+        return null;
+    }
+
     /**
      * 1 传入的端口进行16位进制转换
      * 2 执行cat /proc/net/tcp6 | findstr 端口 未找到则执行cat /proc/net/tcp | findstr 端口
@@ -28,28 +52,8 @@ public class PackageUtils {
         Log.e("SSSSSSS", "port is: " + port);
         String portHex = ":" + Integer.toHexString(port).toUpperCase();
         String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex);
-        if (tcpResult == null) {
-            tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex);
-            if (tcpResult == null) {
-                Log.e("SSSSSSS", "tcp4 is null");
-                return null;
-            } else {
-                Log.e("SSSSSSSStcp4",tcpResult);
-                String[] strings = tcpResult.split("\n");
-                for (String s : strings) {
-                    int i = s.indexOf(portHex);
-                    if (i == 14) {
-                        String uid = s.substring(77, 83).replace(" ", "");
-                        Log.e("SSSSSSS", "uid is: " + uid);
-                        String appName = getAppName(Integer.parseInt(uid));
-                        Log.e("SSSSSSS", "app is: " + appName);
-                        return appName;
-                    }
-                    Log.e("SSSSSSS", "tcp4 strings null");
-                }
-            }
-        } else {
-            Log.e("SSSSSSSStcp6",tcpResult);
+        if (tcpResult != null) {
+            Log.e("SSSSSSSStcp6", tcpResult);
             String[] strings = tcpResult.split("\n");
             for (String s : strings) {
                 int i = s.indexOf(portHex);
@@ -58,12 +62,14 @@ public class PackageUtils {
                     Log.e("SSSSSSS", "uid is: " + uid);
                     String appName = getAppName(Integer.parseInt(uid));
                     Log.e("SSSSSSS", "app is: " + appName);
-                    return appName;
+                    if (!uid.equals("0") && !TextUtils.isEmpty(appName)) {
+                        return appName;
+                    }
                 }
             }
             Log.e("SSSSSSS", "tcp6 strings null");
         }
-        return null;
+        return getTcp(portHex);
     }
 
     private static String getAppName(int uid) {
