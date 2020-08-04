@@ -91,6 +91,8 @@ public class SettingActivity extends AppCompatActivity {
         if ((Boolean) SharedPreferencesUtils.get(this, "isInstallNewCert", false)) {
             btnDownload.setEnabled(false);
             btnGlobal.setEnabled(true);
+            btnGo.setEnabled(true);
+
         }
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +141,6 @@ public class SettingActivity extends AppCompatActivity {
 
         if (SystemCertsUtils.hasCert()) {
             btnMigration.setEnabled(false);
-            btnGo.setEnabled(true);
         }
 
         btnMigration.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +149,6 @@ public class SettingActivity extends AppCompatActivity {
                 boolean result = SystemCertsUtils.buildSystemCerts(getApplicationContext());
                 if (result) {
                     btnMigration.setEnabled(false);
-                    btnGo.setEnabled(true);
                 }
             }
         });
@@ -225,6 +225,7 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 btnDownload.setEnabled(false);
                 btnGlobal.setEnabled(true);
+                btnGo.setEnabled(true);
             } else {
                 Toast.makeText(this, "Installation Fail", Toast.LENGTH_LONG).show();
             }
