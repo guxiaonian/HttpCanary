@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".preview.SettingActivity">
+
+    <Button
+        android:id="@+id/http_canary_permission_btn"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/http_canary_setting_shape"
+        android:text="@string/http_canary_setting_permission" />
+
+    <Button
+        android:id="@+id/http_canary_download_btn"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:enabled="false"
+        android:background="@drawable/http_canary_setting_shape"
+        android:text="@string/http_canary_setting_download" />
+
+    <Button
+        android:id="@+id/http_canary_su_btn"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:enabled="false"
+        android:background="@drawable/http_canary_setting_shape"
+        android:text="@string/http_canary_setting_su" />
+
+    <Button
+        android:id="@+id/http_canary_etc_btn"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:enabled="false"
+        android:background="@drawable/http_canary_setting_shape"
+        android:text="@string/http_canary_setting_etc" />
+
+    <Button
+        android:id="@+id/http_canary_go_btn"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:enabled="false"
+        android:background="@drawable/http_canary_setting_shape"
+        android:text="@string/http_canary_setting_go" />
+</LinearLayout>
