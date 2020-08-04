@@ -5,8 +5,10 @@
     <string name="http_canary_message">Are you sure you want to delete all Https</string>
     <string name="http_canary_no">Cancel</string>
     <string name="http_canary_yes">OK</string>
-    <string name="http_canary_setting_permission">Permission to save certs</string>
-    <string name="http_canary_setting_download">Download the certs</string>
+    <string name="http_canary_setting_permission">Permission to save cert</string>
+    <string name="http_canary_setting_generate">Generate the cert</string>
+    <string name="http_canary_setting_download">Download the cert</string>
+    <string name="http_canary_setting_global">Enable global proxy</string>
     <string name="http_canary_setting_su">Give me the su(need root)</string>
     <string name="http_canary_setting_etc">Migration cert(need root)</string>
     <string name="http_canary_setting_go">Start</string>
