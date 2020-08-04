@@ -122,6 +122,5 @@ public class HttpCanaryFactory {
                 .format(new Date(System.currentTimeMillis()));
         proxy.newHar(time);
         isInitProxy = true;
-        ProxyUtils.setProxyLollipop(mContext, "127.0.0.1", proxyPort);
     }
 }

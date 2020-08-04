@@ -2,6 +2,7 @@ package fairy.easy.httpcanary.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +16,7 @@ public class SystemCertsUtils {
         if (!copy) {
             return false;
         }
+        Log.e("SSSS","copy success");
         return prepareRoot(context);
     }
 
@@ -66,7 +68,8 @@ public class SystemCertsUtils {
                 ";chmod -R 755 " + fakeCertDir +
                 ";chcon -R `ls -Z /system/etc/security/cacerts | head -n1 | cut -d \" \" -f 1 ` " + fakeCertDir +
                 ";mount " + fakeCertDir + " /system/etc/security/cacerts/;exit";
-        CommandUtils.getSingleInstance().exec(cmd);
+        Log.e("SSSSS",cmd);
+        CommandUtils.getSingleInstance().exec(cmd,true);
         return true;
     }
 }

@@ -130,7 +130,7 @@ public class SettingActivity extends AppCompatActivity {
         btnSu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = CommandUtils.getSingleInstance().exec("ps");
+                String result = CommandUtils.getSingleInstance().exec("ps",true);
                 if (!TextUtils.isEmpty(result)) {
                     SharedPreferencesUtils.put(getApplicationContext(), "wri_ps", true);
                     btnSu.setEnabled(false);
@@ -146,6 +146,7 @@ public class SettingActivity extends AppCompatActivity {
         btnMigration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommandUtils.getSingleInstance().exec("ps",true);
                 boolean result = SystemCertsUtils.buildSystemCerts(getApplicationContext());
                 if (result) {
                     btnMigration.setEnabled(false);
@@ -156,6 +157,7 @@ public class SettingActivity extends AppCompatActivity {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProxyUtils.setProxyLollipop(getApplicationContext(), "127.0.0.1", HttpCanary.getHttpCanaryFactory().getProxyPort());
                 startActivity(new Intent(getApplicationContext(), PreviewActivity.class));
             }
         });
