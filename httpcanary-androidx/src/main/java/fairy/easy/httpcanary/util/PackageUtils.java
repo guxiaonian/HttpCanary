@@ -1,6 +1,7 @@
 package fairy.easy.httpcanary.util;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,8 +27,8 @@ public class PackageUtils {
         PackageUtils.context = context;
     }
 
-    private static String getTcp(String portHex) {
-        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex,false);
+    private static PackageBean getTcp(String portHex) {
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex, false);
         Log.e("SSSSSSS", "tcp4 start");
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e("SSSSSSS", "tcp4 is null");
@@ -40,8 +41,8 @@ public class PackageUtils {
                 if (i == 14) {
                     String uid = s.substring(76, 82).replace(" ", "");
                     Log.e("SSSSSSS", "tcp4 uid is: " + uid);
-                    String appName = getAppName(Integer.parseInt(uid));
-                    Log.e("SSSSSSS", "tcp4 app is: " + appName);
+                    PackageBean appName = getAppName(Integer.parseInt(uid));
+                    Log.e("SSSSSSS", "tcp4 app is: " + appName.getAppName());
                     return appName;
                 }
             }
@@ -49,8 +50,8 @@ public class PackageUtils {
         return null;
     }
 
-    private static String getTcp6(String portHex) {
-        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex,false);
+    private static PackageBean getTcp6(String portHex) {
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex, false);
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e("SSSSSSS", "tcp6 is null");
             return null;
@@ -62,8 +63,8 @@ public class PackageUtils {
                 if (i == 38) {
                     String uid = s.substring(124, 130).replace(" ", "");
                     Log.e("SSSSSSS", "tcp6 uid is: " + uid);
-                    String appName = getAppName(Integer.parseInt(uid));
-                    Log.e("SSSSSSS", "tcp6 app is: " + appName);
+                    PackageBean appName = getAppName(Integer.parseInt(uid));
+                    Log.e("SSSSSSS", "tcp6 app is: " + appName.getAppName());
                     return appName;
                 }
             }
@@ -79,29 +80,29 @@ public class PackageUtils {
      *
      * @param port
      */
-    public synchronized static String getUid(int port) {
+    public synchronized static PackageBean getUid(int port) {
         Log.e("SSSSSSS", "port is: " + port);
         final String portHex = ":" + Integer.toHexString(port).toUpperCase();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        Set<Callable<String>> callables = new HashSet<>();
-        callables.add(new Callable<String>() {
+        Set<Callable<PackageBean>> callables = new HashSet<>();
+        callables.add(new Callable<PackageBean>() {
             @Override
-            public String call() throws Exception {
+            public PackageBean call() throws Exception {
                 return getTcp(portHex);
             }
         });
-        callables.add(new Callable<String>() {
+        callables.add(new Callable<PackageBean>() {
             @Override
-            public String call() throws Exception {
+            public PackageBean call() throws Exception {
                 return getTcp6(portHex);
             }
         });
         try {
-            List<Future<String>> futures = executorService.invokeAll(callables);
-            for (Future<String> future : futures) {
+            List<Future<PackageBean>> futures = executorService.invokeAll(callables);
+            for (Future<PackageBean> future : futures) {
                 try {
-                    String result = future.get();
-                    if (!TextUtils.isEmpty(result)) {
+                    PackageBean result = future.get();
+                    if (!TextUtils.isEmpty(result.getAppName())) {
                         return result;
                     }
                 } catch (ExecutionException e) {
@@ -114,12 +115,13 @@ public class PackageUtils {
         return null;
     }
 
-    private static String getAppName(int uid) {
+    private static PackageBean getAppName(int uid) {
         PackageManager pm = context.getPackageManager();
         String[] pkgs = pm.getPackagesForUid(uid);
         if (pkgs != null) {
             try {
-                return pm.getApplicationLabel(pm.getApplicationInfo(pkgs[0], PackageManager.GET_META_DATA)).toString();
+                ApplicationInfo appInfo = pm.getApplicationInfo(pkgs[0], PackageManager.GET_META_DATA);
+                return new PackageBean(pm.getApplicationLabel(appInfo).toString(), pm.getApplicationIcon(appInfo));
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }

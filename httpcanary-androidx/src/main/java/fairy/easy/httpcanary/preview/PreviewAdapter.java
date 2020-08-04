@@ -84,12 +84,15 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
             holder.tv = convertView.findViewById(R.id.http_canary_tv_url);
             holder.detailTextView = convertView.findViewById(R.id.http_canary_tv_detail);
             holder.iconView = convertView.findViewById(R.id.http_canary_iv_icon);
+            holder.appIcon = convertView.findViewById(R.id.http_canary_iv_app);
+            holder.name = convertView.findViewById(R.id.http_canary_tv_name);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
         HarEntry harEntry = harEntryList.get(position);
         holder.tv.setText(harEntry.getRequest().getUrl());
+        holder.name.setText(TextUtils.isEmpty(harEntry.getPort2PackageName().getAppName()) ? "未知" : harEntry.getPort2PackageName().getAppName());
         if (harEntry.getResponse().getStatus() > 400) {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
         } else if (harEntry.getResponse().getStatus() > 300) {
@@ -99,8 +102,13 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
         } else {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
         }
-        holder.detailTextView.setText(String.format("Status:%d Size:%dBytes Time:%dms\n%s \n%s", harEntry.getResponse().getStatus(), harEntry.getResponse().getBodySize(), harEntry.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
-                .format(harEntry.getStartedDateTime().getTime()), TextUtils.isEmpty(harEntry.getPort2PackageName())?"未知":harEntry.getPort2PackageName()));
+        try {
+            holder.appIcon.setImageDrawable(harEntry.getPort2PackageName().getIcon());
+        }catch (Exception e){
+            holder.appIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
+        }
+        holder.detailTextView.setText(String.format("Status:%d Size:%dBytes Time:%dms\n%s", harEntry.getResponse().getStatus(), harEntry.getResponse().getBodySize(), harEntry.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
+                .format(harEntry.getStartedDateTime().getTime())));
         return convertView;
     }
 
@@ -178,6 +186,8 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
         private TextView tv;
         private TextView detailTextView;
         private ImageView iconView;
+        private ImageView appIcon;
+        private TextView name;
 
     }
 }
