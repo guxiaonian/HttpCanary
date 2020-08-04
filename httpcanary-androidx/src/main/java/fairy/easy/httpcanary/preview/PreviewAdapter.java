@@ -2,6 +2,7 @@ package fairy.easy.httpcanary.preview;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +100,7 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
         }
         holder.detailTextView.setText(String.format("Status:%d Size:%dBytes Time:%dms\n%s \n%s", harEntry.getResponse().getStatus(), harEntry.getResponse().getBodySize(), harEntry.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
-                .format(harEntry.getStartedDateTime().getTime()),harEntry.getPort2PackageName()));
+                .format(harEntry.getStartedDateTime().getTime()), TextUtils.isEmpty(harEntry.getPort2PackageName())?"未知":harEntry.getPort2PackageName()));
         return convertView;
     }
 

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fairy.easy.httpcanary">
 
@@ -5,8 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
+
         <provider
-            android:name="fairy.easy.httpcanary.HttpProvider"
+            android:name=".HttpProvider"
             android:authorities="fairy.easy.httpcanary.HttpProvider.${applicationId}"
             android:exported="false" />
 
@@ -20,11 +22,16 @@
             android:theme="@style/http_canary_LogCanary.Base">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".preview.HarDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/http_canary_LogCanary.Base" />
+        <activity
+            android:name=".preview.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/http_canary_LogCanary.Base" />
     </application>
