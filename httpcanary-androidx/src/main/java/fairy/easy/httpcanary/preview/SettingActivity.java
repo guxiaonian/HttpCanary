@@ -132,12 +132,26 @@ public class SettingActivity extends AppCompatActivity {
         btnSu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = CommandUtils.getSingleInstance().exec("ps", true);
-                if (!TextUtils.isEmpty(result)) {
-                    SharedPreferencesUtils.put(getApplicationContext(), "wri_ps", true);
-                    btnSu.setEnabled(false);
-                    btnMigration.setEnabled(true);
-                }
+                progressDialog = ProgressDialog.show(SettingActivity.this, null, "su...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String result = CommandUtils.getSingleInstance().exec("ps", true);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                if (!TextUtils.isEmpty(result)) {
+                                    SharedPreferencesUtils.put(getApplicationContext(), "wri_ps", true);
+                                    btnSu.setEnabled(false);
+                                    btnMigration.setEnabled(true);
+                                }
+                            }
+                        });
+                    }
+                }).start();
             }
         });
 
@@ -151,11 +165,33 @@ public class SettingActivity extends AppCompatActivity {
                 if (SystemCertsUtils.hasCert()) {
                     btnMigration.setEnabled(false);
                 } else {
-                    CommandUtils.getSingleInstance().exec("ps", true);
-                    boolean result = SystemCertsUtils.buildSystemCerts(getApplicationContext());
-                    if (result) {
-                        btnMigration.setEnabled(false);
-                    }
+                    progressDialog = ProgressDialog.show(SettingActivity.this, null, "migration...");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!SystemCertsUtils.hasCertApp(getApplicationContext())) {
+                                SystemCertsUtils.buildSystemCerts(getApplicationContext());
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            CommandUtils.getSingleInstance().exec("", true);
+                            CommandUtils.getSingleInstance().exec("cp -f " + getFilesDir() + "/cacerts/" + "4bb9877f.0 /system/etc/security/cacerts/", true);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (progressDialog != null) {
+                                        progressDialog.dismiss();
+                                    }
+                                    if (SystemCertsUtils.hasCert()) {
+                                        btnMigration.setEnabled(false);
+                                    }
+                                }
+                            });
+                        }
+                    }).start();
                 }
             }
         });
@@ -170,7 +206,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private void insertPem() {
-        progressDialog = ProgressDialog.show(this, null, "save...");
+        progressDialog = ProgressDialog.show(SettingActivity.this, null, "save...");
         HttpCanary.getHttpCanaryFactory().initProxy(new HttpCanaryFactory.CallBack() {
             @Override
             public void onResult() {
@@ -192,6 +228,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void installCert() {
+        progressDialog = ProgressDialog.show(SettingActivity.this, null, "install...");
         final String CERTIFICATE_RESOURCE = Environment.getExternalStorageDirectory() + "/har/littleproxy-mitm.pem";
         Runnable runnable = new Runnable() {
             @Override
@@ -223,6 +260,9 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) {
+            if(progressDialog!=null){
+                progressDialog.dismiss();
+            }
             if (resultCode == Activity.RESULT_OK) {
                 SharedPreferencesUtils.put(this, "isInstallNewCert", true);
                 Toast.makeText(this, "Installation Success", Toast.LENGTH_LONG).show();

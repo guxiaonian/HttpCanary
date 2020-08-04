@@ -61,10 +61,13 @@ public class SystemCertsUtils {
         return new File("/system/etc/security/cacerts/4bb9877f.0").exists();
     }
 
+    public static boolean hasCertApp(Context context) {
+        return new File(context.getFilesDir() + "/cacerts/4bb9877f.0").exists();
+    }
     private static boolean prepareRoot(Context context) {
         String fakeCertDir = context.getFilesDir() + "/cacerts/";
         String cmd = "umount /system/etc/security/cacerts;cp -pR /system/etc/security/cacerts " + context.getFilesDir() +
-                ";cp " + context.getFilesDir() + "/littleproxy-mitm.pem " + fakeCertDir + "/4bb9877f.0" +
+                ";cp " + context.getFilesDir() + "/littleproxy-mitm.pem " + fakeCertDir + "4bb9877f.0" +
                 ";chmod -R 755 " + fakeCertDir +
                 ";chcon -R `ls -Z /system/etc/security/cacerts | head -n1 | cut -d \" \" -f 1 ` " + fakeCertDir +
                 ";mount " + fakeCertDir + " /system/etc/security/cacerts/;exit";
