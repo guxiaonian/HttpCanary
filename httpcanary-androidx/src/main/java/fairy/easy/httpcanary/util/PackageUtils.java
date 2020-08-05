@@ -112,21 +112,23 @@ public class PackageUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return new PackageBean();
     }
 
     private static PackageBean getAppName(int uid) {
         PackageManager pm = context.getPackageManager();
         String[] pkgs = pm.getPackagesForUid(uid);
+        PackageBean packageBean=new PackageBean();
         if (pkgs != null) {
             try {
                 ApplicationInfo appInfo = pm.getApplicationInfo(pkgs[0], PackageManager.GET_META_DATA);
-                return new PackageBean(pm.getApplicationLabel(appInfo).toString(), pm.getApplicationIcon(appInfo));
+                packageBean.setAppName(pm.getApplicationLabel(appInfo).toString());
+                packageBean.setIcon(pm.getApplicationIcon(appInfo));
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        return null;
+        return packageBean;
     }
 
 }

@@ -8,6 +8,9 @@ public class PackageBean implements Serializable {
     private String appName;
     private Drawable icon;
 
+    public PackageBean() {
+    }
+
     public PackageBean(String appName, Drawable icon) {
         this.appName = appName;
         this.icon = icon;

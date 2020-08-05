@@ -103,7 +103,11 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
         }
         try {
-            holder.appIcon.setImageDrawable(harEntry.getPort2PackageName().getIcon());
+            if(harEntry.getPort2PackageName().getIcon()!=null){
+                holder.appIcon.setImageDrawable(harEntry.getPort2PackageName().getIcon());
+            }else {
+                holder.appIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
+            }
         }catch (Exception e){
             holder.appIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
         }
