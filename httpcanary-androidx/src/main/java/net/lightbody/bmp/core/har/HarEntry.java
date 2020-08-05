@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import fairy.easy.httpcanary.util.PackageBean;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect
 public class HarEntry {
@@ -20,13 +18,13 @@ public class HarEntry {
     private volatile HarTimings timings = new HarTimings();
     private volatile String serverIPAddress;
     private volatile String connection;
-    private volatile PackageBean port2PackageName;
+    private volatile String port2PackageName;
 
-    public PackageBean getPort2PackageName() {
+    public String getPort2PackageName() {
         return port2PackageName;
     }
 
-    public void setPort2PackageName(PackageBean port2PackageName) {
+    public void setPort2PackageName(String port2PackageName) {
         this.port2PackageName = port2PackageName;
     }
 
