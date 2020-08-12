@@ -36,13 +36,6 @@ import fairy.easy.httpcanary.util.ProxyUtils;
 import fairy.easy.httpcanary.util.SharedPreferencesUtils;
 import fairy.easy.httpcanary.util.SystemCertsUtils;
 
-/**
- * 设置相关页面
- * 第一步 给与相关权限
- * 第二步 下载证书并安装
- * 第三步 给与su权限
- * 第四步 迁移证书
- */
 public class SettingActivity extends AppCompatActivity {
     private static final int RESULT_PERMISSIONS = 1;
     private Button btnPermission;
@@ -169,16 +162,22 @@ public class SettingActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            if (!SystemCertsUtils.hasCertApp(getApplicationContext())) {
-                                SystemCertsUtils.buildSystemCerts(getApplicationContext());
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+//                            if (!SystemCertsUtils.hasCertApp(getApplicationContext())) {
+//                                SystemCertsUtils.buildSystemCerts(getApplicationContext());
+//                                try {
+//                                    Thread.sleep(2000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                            CommandUtils.getSingleInstance().exec("", true);
+//                            cp -f /data/misc/user/0/cacerts-added/4bb9877f.0 /system/etc/security/cacerts/
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
-                            CommandUtils.getSingleInstance().exec("", true);
-                            CommandUtils.getSingleInstance().exec("cp -f " + getFilesDir() + "/cacerts/" + "4bb9877f.0 /system/etc/security/cacerts/", true);
+                            CommandUtils.getSingleInstance().exec("cp -f /data/misc/user/0/cacerts-added/4bb9877f.0 /system/etc/security/cacerts/", true);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
