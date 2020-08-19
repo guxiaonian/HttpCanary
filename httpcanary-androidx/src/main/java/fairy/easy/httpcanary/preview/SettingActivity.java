@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.security.KeyChain;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +131,7 @@ public class SettingActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final String result = CommandUtils.getSingleInstance().exec("ps", true);
+                        final String result = CommandUtils.getSingleInstance().exec("ps");
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -162,22 +164,10 @@ public class SettingActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-//                            if (!SystemCertsUtils.hasCertApp(getApplicationContext())) {
-//                                SystemCertsUtils.buildSystemCerts(getApplicationContext());
-//                                try {
-//                                    Thread.sleep(2000);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                            CommandUtils.getSingleInstance().exec("", true);
-//                            cp -f /data/misc/user/0/cacerts-added/4bb9877f.0 /system/etc/security/cacerts/
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            CommandUtils.getSingleInstance().exec("cp -f /data/misc/user/0/cacerts-added/4bb9877f.0 /system/etc/security/cacerts/", true);
+                            SystemCertsUtils.buildSystemCerts(getApplicationContext());
+//                            CommandUtils.getSingleInstance().exec("umount /system/etc/security/cacerts;" +
+//                                    "chmod -R 755 /data/misc/user/0/cacerts-added/;" +
+//                                    "cp -f /data/misc/user/0/cacerts-added/4bb9877f.0 /system/etc/security/cacerts");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -259,7 +249,7 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) {
-            if(progressDialog!=null){
+            if (progressDialog != null) {
                 progressDialog.dismiss();
             }
             if (resultCode == Activity.RESULT_OK) {

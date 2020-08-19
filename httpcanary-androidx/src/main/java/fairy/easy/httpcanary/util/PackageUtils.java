@@ -28,7 +28,7 @@ public class PackageUtils {
     }
 
     private static String getTcp(String portHex) {
-        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex, false);
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex);
         Log.e("SSSSSSS", "tcp4 start");
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e("SSSSSSS", "tcp4 is null");
@@ -51,7 +51,7 @@ public class PackageUtils {
     }
 
     private static String getTcp6(String portHex) {
-        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex, false);
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex);
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e("SSSSSSS", "tcp6 is null");
             return null;

@@ -12,11 +12,11 @@ import java.io.IOException;
 public class SystemCertsUtils {
 
     public static boolean buildSystemCerts(Context context) {
-        boolean copy = copyAssets2Files(Environment.getExternalStorageDirectory() + "/har/littleproxy-mitm.pem", context.getFilesDir().getAbsolutePath() + File.separator + "littleproxy-mitm.pem");
-        if (!copy) {
-            return false;
-        }
-        Log.e("SSSS","copy success");
+//        boolean copy = copyAssets2Files(Environment.getExternalStorageDirectory() + "/har/littleproxy-mitm.pem", context.getFilesDir().getAbsolutePath() + File.separator + "littleproxy-mitm.pem");
+//        if (!copy) {
+//            return false;
+//        }
+//        Log.e("SSSS","copy success");
         return prepareRoot(context);
     }
 
@@ -64,15 +64,16 @@ public class SystemCertsUtils {
     public static boolean hasCertApp(Context context) {
         return new File(context.getFilesDir() + "/cacerts/4bb9877f.0").exists();
     }
+
     private static boolean prepareRoot(Context context) {
         String fakeCertDir = context.getFilesDir() + "/cacerts/";
         String cmd = "umount /system/etc/security/cacerts;cp -pR /system/etc/security/cacerts " + context.getFilesDir() +
-                ";cp " + context.getFilesDir() + "/littleproxy-mitm.pem " + fakeCertDir + "4bb9877f.0" +
+                ";cp /data/misc/user/0/cacerts-added/4bb9877f.0 " + fakeCertDir +
                 ";chmod -R 755 " + fakeCertDir +
                 ";chcon -R `ls -Z /system/etc/security/cacerts | head -n1 | cut -d \" \" -f 1 ` " + fakeCertDir +
-                ";mount " + fakeCertDir + " /system/etc/security/cacerts/;exit";
-        Log.e("SSSSS",cmd);
-        CommandUtils.getSingleInstance().exec(cmd,true);
+                ";mount " + fakeCertDir + " /system/etc/security/cacerts/";
+        Log.e("SSSSS", cmd);
+        CommandUtils.getSingleInstance().exec(cmd);
         return true;
     }
 }

@@ -18,12 +18,12 @@ public class CommandUtils {
         return SingletonHolder.INSTANCE;
     }
 
-    public String exec(String command,boolean su) {
+    public String exec(String command) {
         BufferedOutputStream bufferedOutputStream = null;
         BufferedInputStream bufferedInputStream = null;
         Process process = null;
         try {
-            process = Runtime.getRuntime().exec(su?"su":Build.VERSION.SDK_INT >= 29 ? "su" : "sh");
+            process = Runtime.getRuntime().exec("su");
             bufferedOutputStream = new BufferedOutputStream(process.getOutputStream());
 
             bufferedInputStream = new BufferedInputStream(process.getInputStream());
