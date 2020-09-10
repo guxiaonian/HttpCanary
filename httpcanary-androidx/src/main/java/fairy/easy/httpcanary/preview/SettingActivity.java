@@ -19,8 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -38,7 +36,7 @@ import fairy.easy.httpcanary.util.ProxyUtils;
 //import fairy.easy.httpcanary.util.SharedPreferencesUtils;
 import fairy.easy.httpcanary.util.SystemCertsUtils;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends Activity {
     private static final int RESULT_PERMISSIONS = 1;
     private Button btnPermission;
     private Button btnDownload;
@@ -284,7 +282,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
         if (requestCode == RESULT_PERMISSIONS) {
             int i = 0;
             for (int g : grantResults) {

@@ -1,5 +1,8 @@
 package fairy.easy.httpcanary.preview;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,10 +19,6 @@ import net.lightbody.bmp.core.har.HarPostDataParam;
 import net.lightbody.bmp.core.har.HarRequest;
 import net.lightbody.bmp.core.har.HarResponse;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -27,7 +26,7 @@ import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.R;
 
 
-public class HarDetailActivity extends AppCompatActivity {
+public class HarDetailActivity extends Activity {
 
 
     LinearLayout linearLayout;
@@ -37,10 +36,10 @@ public class HarDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.http_canary_activity_scrolling);
         linearLayout = findViewById(R.id.http_canary_ll_detailLayout);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
         try {
             initHarLog(getIntent().getIntExtra("pos", -1));
         } catch (Exception e) {

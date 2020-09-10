@@ -6,7 +6,21 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     >
+    <LinearLayout
+        android:id="@+id/http_canary_ll_pre"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="#000000"
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Https"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </LinearLayout>
 <!--    <EditText-->
 <!--        android:id="@+id/http_canary_et"-->
 <!--        android:layout_width="match_parent"-->
@@ -19,19 +33,21 @@
 <!--        android:layout_above="@+id/http_canary_btn"-->
 <!--        android:layout_height="wrap_content"/>-->
 
-    <Button
-        android:id="@+id/http_canary_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/http_canary_delete_all" />
 
     <ListView
         android:id="@+id/http_canary_list"
+        android:layout_below="@+id/http_canary_ll_pre"
         android:layout_width="match_parent"
         android:layout_above="@+id/http_canary_btn"
         android:layout_height="match_parent"
         />
-
+    <Button
+        android:id="@+id/http_canary_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/http_canary_delete_all" />
 </RelativeLayout>

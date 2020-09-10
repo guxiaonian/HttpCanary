@@ -1,5 +1,6 @@
 package fairy.easy.httpcanary.preview;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
@@ -15,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import net.lightbody.bmp.core.har.HarEntry;
 
@@ -25,7 +25,7 @@ import fairy.easy.httpcanary.R;
 import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
 
 
-public class PreviewActivity extends AppCompatActivity {
+public class PreviewActivity extends Activity {
     private PreviewAdapter previewAdapter;
     private ListView listView;
     private EditText editText;
@@ -126,7 +126,12 @@ public class PreviewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        HttpCanary.getHttpCanaryFactory().stop();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpCanary.getHttpCanaryFactory().stop();
+            }
+        }).start();
     }
 
 }

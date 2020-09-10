@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import androidx.core.content.ContextCompat;
 
 
 public class PermissionsUtils {
@@ -17,7 +16,7 @@ public class PermissionsUtils {
             return true;
         }
         for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+            if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
