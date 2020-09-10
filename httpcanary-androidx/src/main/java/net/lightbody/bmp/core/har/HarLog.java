@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import fairy.easy.httpcanary.AbstractParam;
+import fairy.easy.httpcanary.preview.PreviewActivity;
 import fairy.easy.httpcanary.util.PackageUtils;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -29,9 +31,12 @@ public class HarLog {
     public HarLog() {
     }
 
-    public HarLog(HarNameVersion creator, BrowserMobProxyServer server) {
+    private AbstractParam abstractParam;
+
+    public HarLog(HarNameVersion creator, BrowserMobProxyServer server, AbstractParam abstractParam) {
         this.creator = creator;
         this.server = server;
+        this.abstractParam = abstractParam;
     }
 
     public void addPage(HarPage page) {
@@ -46,6 +51,10 @@ public class HarLog {
         if (inetSocketAddress != null) {
             entry.setPort2PackageName(PackageUtils.getUid(inetSocketAddress.getPort()));
         }
+        if(abstractParam!=null){
+            abstractParam.getParam(entry);
+        }
+
 //        int count = 0;
 //        for (HarEntry har : entries) {
 //            if (entry.getPageref().equals(har.getPageref())) {

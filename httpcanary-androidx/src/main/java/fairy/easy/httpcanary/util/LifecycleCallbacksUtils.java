@@ -69,6 +69,9 @@ public class LifecycleCallbacksUtils implements Application.ActivityLifecycleCal
     }
 
     private void hookWebView(final WebView webView) {
+        if(!HttpCanary.getHttpCanaryFactory().getInitProxy()){
+            return;
+        }
         if (webView == null) {
             return;
         }

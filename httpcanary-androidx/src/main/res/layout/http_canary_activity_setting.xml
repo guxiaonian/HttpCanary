@@ -63,7 +63,6 @@
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
-        android:enabled="false"
         android:background="@drawable/http_canary_setting_shape"
         android:text="@string/http_canary_setting_go" />
 </LinearLayout>

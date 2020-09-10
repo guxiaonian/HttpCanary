@@ -92,5 +92,24 @@
       <option name="myAdditionalJavadocTags" value="date" />
     </inspection_tool>
     <inspection_tool class="MapOrSetKeyShouldOverrideHashCodeEquals" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiAvoidApacheBeanUtilsCopy" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiCheckServerTrusted" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiDexClassLoader" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiHostnameVerifier" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiHttpProtocol" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiIntentUrlScheme" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiLaunchAnyWhere" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiPendingIntent" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiProductSecuritySignature" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiProviderOpenFile" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiSSLSocketFactoryAllowAllHostnameVerifier" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebSettingsAllowContentAccess" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebSettingsAllowFileAccess" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebSettingsAllowFileAccessFromFile" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebSettingsAllowUniversalAccessFromFile" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebSettingsJavaScriptEnabled" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebViewClientOnReceivedSslError" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWebViewWebContentsDebuggingEnabled" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiZipEntry" enabled="false" level="CRITICAL" enabled_by_default="false" />
   </profile>
 </component>

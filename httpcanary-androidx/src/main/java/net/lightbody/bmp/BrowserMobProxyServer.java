@@ -77,6 +77,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
+import fairy.easy.httpcanary.AbstractParam;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpObject;
@@ -261,7 +262,9 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
      */
     private volatile String chainedProxyCredentials;
 
-    public BrowserMobProxyServer() {
+    private AbstractParam abstractParam;
+    public BrowserMobProxyServer(AbstractParam abstractParam) {
+        this.abstractParam=abstractParam;
     }
 
     @Override
@@ -486,7 +489,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
 
         harPageCount.set(0);
 
-        this.har = new Har(new HarLog(HAR_CREATOR_VERSION,this));
+        this.har = new Har(new HarLog(HAR_CREATOR_VERSION,this,abstractParam));
 
         newPage(initialPageRef, initialPageTitle);
 

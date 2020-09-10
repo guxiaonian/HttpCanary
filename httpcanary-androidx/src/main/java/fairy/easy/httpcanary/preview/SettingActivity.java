@@ -35,7 +35,7 @@ import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
 import fairy.easy.httpcanary.util.PackageUtils;
 import fairy.easy.httpcanary.util.PermissionsUtils;
 import fairy.easy.httpcanary.util.ProxyUtils;
-import fairy.easy.httpcanary.util.SharedPreferencesUtils;
+//import fairy.easy.httpcanary.util.SharedPreferencesUtils;
 import fairy.easy.httpcanary.util.SystemCertsUtils;
 
 public class SettingActivity extends AppCompatActivity {
@@ -63,7 +63,7 @@ public class SettingActivity extends AppCompatActivity {
         PackageUtils.setContext(getApplicationContext());
         if (PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             btnPermission.setEnabled(false);
-            btnGenerate.setEnabled(true);
+//            btnGenerate.setEnabled(true);
         }
 
         btnPermission.setOnClickListener(new View.OnClickListener() {
@@ -73,10 +73,10 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        if ((Boolean) SharedPreferencesUtils.get(this, "wri_net", false)) {
-            btnGenerate.setEnabled(false);
-            btnDownload.setEnabled(true);
-        }
+//        if ((Boolean) SharedPreferencesUtils.get(this, "wri_net", false)) {
+//            btnGenerate.setEnabled(false);
+//            btnDownload.setEnabled(true);
+//        }
 
         btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,12 +85,12 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        if ((Boolean) SharedPreferencesUtils.get(this, "isInstallNewCert", false)) {
-            btnDownload.setEnabled(false);
-            btnGlobal.setEnabled(true);
-            btnGo.setEnabled(true);
-
-        }
+//        if ((Boolean) SharedPreferencesUtils.get(this, "isInstallNewCert", false)) {
+//            btnDownload.setEnabled(false);
+//            btnGlobal.setEnabled(true);
+//            btnGo.setEnabled(true);
+//
+//        }
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,10 +119,10 @@ public class SettingActivity extends AppCompatActivity {
 
         });
 
-        if ((Boolean) SharedPreferencesUtils.get(this, "wri_ps", false)) {
-            btnSu.setEnabled(false);
-            btnMigration.setEnabled(true);
-        }
+//        if ((Boolean) SharedPreferencesUtils.get(this, "wri_ps", false)) {
+//            btnSu.setEnabled(false);
+//            btnMigration.setEnabled(true);
+//        }
 
         btnSu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +139,7 @@ public class SettingActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                 }
                                 if (!TextUtils.isEmpty(result)) {
-                                    SharedPreferencesUtils.put(getApplicationContext(), "wri_ps", true);
+//                                    SharedPreferencesUtils.put(getApplicationContext(), "wri_ps", true);
                                     btnSu.setEnabled(false);
                                     btnMigration.setEnabled(true);
                                 }
@@ -195,25 +195,26 @@ public class SettingActivity extends AppCompatActivity {
 
 
     private void insertPem() {
-        progressDialog = ProgressDialog.show(SettingActivity.this, null, "save...");
-        HttpCanary.getHttpCanaryFactory().initProxy(new HttpCanaryFactory.CallBack() {
-            @Override
-            public void onResult() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (progressDialog != null) {
-                            progressDialog.dismiss();
-                        }
-                        SharedPreferencesUtils.put(getApplicationContext(), "wri_net", true);
-                        btnGenerate.setEnabled(false);
-                        btnDownload.setEnabled(true);
-                    }
-                });
-            }
-        });
+//        progressDialog = ProgressDialog.show(SettingActivity.this, null, "save...");
+//        HttpCanary.getHttpCanaryFactory().initProxy(new HttpCanaryFactory.CallBack() {
+//            @Override
+//            public void onResult() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (progressDialog != null) {
+//                            progressDialog.dismiss();
+//                        }
+////                        SharedPreferencesUtils.put(getApplicationContext(), "wri_net", true);
+//                        btnGenerate.setEnabled(false);
+//                        btnDownload.setEnabled(true);
+//                    }
+//                });
+//            }
+//        });
 
-
+        btnGenerate.setEnabled(false);
+        btnDownload.setEnabled(true);
     }
 
     private void installCert() {
@@ -253,12 +254,12 @@ public class SettingActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
             if (resultCode == Activity.RESULT_OK) {
-                SharedPreferencesUtils.put(this, "isInstallNewCert", true);
+//                SharedPreferencesUtils.put(this, "isInstallNewCert", true);
                 Toast.makeText(this, "Installation Success", Toast.LENGTH_LONG).show();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                    Application app = (Application) getApplicationContext();
-                    app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+//                    Application app = (Application) getApplicationContext();
+//                    app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
+//                }
                 btnDownload.setEnabled(false);
                 btnGlobal.setEnabled(true);
                 btnGo.setEnabled(true);
@@ -307,4 +308,5 @@ public class SettingActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
     }
+
 }

@@ -17,6 +17,7 @@ import java.util.concurrent.Future;
 
 public class PackageUtils {
 
+    public static final String TAG = "Http---";
     private static Context context;
 
     public static Context getContext() {
@@ -29,20 +30,20 @@ public class PackageUtils {
 
     private static String getTcp(String portHex) {
         String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex);
-        Log.e("SSSSSSS", "tcp4 start");
+        Log.e(TAG, "tcp4 start");
         if (TextUtils.isEmpty(tcpResult)) {
-            Log.e("SSSSSSS", "tcp4 is null");
+            Log.e(TAG, "tcp4 is null");
             return null;
         } else {
-            Log.e("SSSSSSSS", "tcp4 " + tcpResult);
+            Log.e(TAG, "tcp4 " + tcpResult);
             String[] strings = tcpResult.split("\n");
             for (String s : strings) {
                 int i = s.indexOf(portHex);
                 if (i == 14) {
                     String uid = s.substring(76, 82).replace(" ", "");
-                    Log.e("SSSSSSS", "tcp4 uid is: " + uid);
+                    Log.e(TAG, "tcp4 uid is: " + uid);
                     String appName = getAppName(Integer.parseInt(uid));
-                    Log.e("SSSSSSS", "tcp4 app is: " + appName);
+                    Log.e(TAG, "tcp4 app is: " + appName);
                     return appName;
                 }
             }
@@ -53,18 +54,18 @@ public class PackageUtils {
     private static String getTcp6(String portHex) {
         String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex);
         if (TextUtils.isEmpty(tcpResult)) {
-            Log.e("SSSSSSS", "tcp6 is null");
+            Log.e(TAG, "tcp6 is null");
             return null;
         } else {
-            Log.e("SSSSSSSS", "tcp6  " + tcpResult);
+            Log.e(TAG, "tcp6  " + tcpResult);
             String[] strings = tcpResult.split("\n");
             for (String s : strings) {
                 int i = s.indexOf(portHex);
                 if (i == 38) {
                     String uid = s.substring(124, 130).replace(" ", "");
-                    Log.e("SSSSSSS", "tcp6 uid is: " + uid);
+                    Log.e(TAG, "tcp6 uid is: " + uid);
                     String appName = getAppName(Integer.parseInt(uid));
-                    Log.e("SSSSSSS", "tcp6 app is: " + appName);
+                    Log.e(TAG, "tcp6 app is: " + appName);
                     return appName;
                 }
             }
@@ -81,7 +82,7 @@ public class PackageUtils {
      * @param port
      */
     public synchronized static String getUid(int port) {
-        Log.e("SSSSSSS", "port is: " + port);
+        Log.e(TAG, "port is: " + port);
         final String portHex = ":" + Integer.toHexString(port).toUpperCase();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         Set<Callable<String>> callables = new HashSet<>();

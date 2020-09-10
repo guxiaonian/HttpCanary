@@ -24,7 +24,7 @@ import java.util.Locale;
 import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.R;
 
-public class PreviewAdapter extends BaseAdapter implements Filterable {
+public class PreviewAdapter extends BaseAdapter {
 
     private final Context mContext;
     private List<HarEntry> harEntryList = new ArrayList<>();
@@ -37,6 +37,10 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
     public void notifyHarChange() {
         harEntryList.clear();
         notifyDataSetChanged();
+    }
+    public void addList(HarEntry harEntry){
+        harLog = HttpCanary.getHttpCanaryFactory().getProxy().getHar().getLog();
+        harEntryList.add(harEntry);
     }
 
     public void setList() {
@@ -106,75 +110,75 @@ public class PreviewAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                //初始化过滤结果对象
-                FilterResults results = new FilterResults();
-                //假如搜索为空的时候，将复制的数据添加到原始数据，用于继续过滤操作
-                if (results.values == null) {
-                    harEntryList.clear();
-                    harEntryList.addAll(harLog.getEntries());
-                }
-                //关键字为空的时候，搜索结果为复制的结果
-                if (constraint == null || constraint.length() == 0) {
-                    results.values = harLog.getEntries();
-                    results.count = harLog.getEntries().size();
-                } else {
-                    String prefixString = constraint.toString();
-                    final int count = harEntryList.size();
-                    //用于存放暂时的过滤结果
-                    final ArrayList<HarEntry> newValues = new ArrayList<>();
-                    for (int i = 0; i < count; i++) {
-                        final HarEntry value = harEntryList.get(i);
-                        String url = value.getRequest().getUrl();
-                        // 假如含有关键字的时候，添加
-                        if (url.contains(prefixString)) {
-                            newValues.add(value);
-                        } else {
-                            //过来空字符开头
-                            String[] words = prefixString.split(" ");
-
-                            for (String word : words) {
-                                if (url.contains(word)) {
-                                    newValues.add(value);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    results.values = newValues;
-                    results.count = newValues.size();
-                }
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                //清除原始数据
-                harEntryList.clear();
-                if (results.values instanceof List) {
-                    //将过滤结果添加到这个对象
-                    harEntryList.addAll((List<HarEntry>) results.values);
-                }
-                if (results.count > 0) {
-                    //有关键字的时候刷新数据
-                    notifyDataSetChanged();
-                } else {
-                    //关键字不为零但是过滤结果为空刷新数据
-                    if (constraint.length() != 0) {
-                        notifyDataSetChanged();
-                        return;
-                    }
-                    //加载复制的数据，即为最初的数据
-                    harEntryList.addAll(harLog.getEntries());
-                    notifyDataSetChanged();
-                }
-            }
-        };
-    }
+//    @Override
+//    public Filter getFilter() {
+//        return new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence constraint) {
+//                //初始化过滤结果对象
+//                FilterResults results = new FilterResults();
+//                //假如搜索为空的时候，将复制的数据添加到原始数据，用于继续过滤操作
+//                if (results.values == null) {
+//                    harEntryList.clear();
+//                    harEntryList.addAll(harLog.getEntries());
+//                }
+//                //关键字为空的时候，搜索结果为复制的结果
+//                if (constraint == null || constraint.length() == 0) {
+//                    results.values = harLog.getEntries();
+//                    results.count = harLog.getEntries().size();
+//                } else {
+//                    String prefixString = constraint.toString();
+//                    final int count = harEntryList.size();
+//                    //用于存放暂时的过滤结果
+//                    final ArrayList<HarEntry> newValues = new ArrayList<>();
+//                    for (int i = 0; i < count; i++) {
+//                        final HarEntry value = harEntryList.get(i);
+//                        String url = value.getRequest().getUrl();
+//                        // 假如含有关键字的时候，添加
+//                        if (url.contains(prefixString)) {
+//                            newValues.add(value);
+//                        } else {
+//                            //过来空字符开头
+//                            String[] words = prefixString.split(" ");
+//
+//                            for (String word : words) {
+//                                if (url.contains(word)) {
+//                                    newValues.add(value);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    results.values = newValues;
+//                    results.count = newValues.size();
+//                }
+//                return results;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence constraint, FilterResults results) {
+//                //清除原始数据
+//                harEntryList.clear();
+//                if (results.values instanceof List) {
+//                    //将过滤结果添加到这个对象
+//                    harEntryList.addAll((List<HarEntry>) results.values);
+//                }
+//                if (results.count > 0) {
+//                    //有关键字的时候刷新数据
+//                    notifyDataSetChanged();
+//                } else {
+//                    //关键字不为零但是过滤结果为空刷新数据
+//                    if (constraint.length() != 0) {
+//                        notifyDataSetChanged();
+//                        return;
+//                    }
+//                    //加载复制的数据，即为最初的数据
+//                    harEntryList.addAll(harLog.getEntries());
+//                    notifyDataSetChanged();
+//                }
+//            }
+//        };
+//    }
 
     class Holder {
         private TextView tv;

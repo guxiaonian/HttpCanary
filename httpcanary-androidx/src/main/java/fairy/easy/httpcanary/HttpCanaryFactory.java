@@ -20,7 +20,7 @@ import java.util.Random;
 
 import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
 import fairy.easy.httpcanary.util.ProxyUtils;
-import fairy.easy.httpcanary.util.SharedPreferencesUtils;
+//import fairy.easy.httpcanary.util.SharedPreferencesUtils;
 
 
 public class HttpCanaryFactory {
@@ -31,13 +31,13 @@ public class HttpCanaryFactory {
 
     public HttpCanaryFactory(Context mContext) {
         this.mContext = mContext;
-        if ((boolean) SharedPreferencesUtils.get(mContext, "isInstallNewCert", false)) {
-            initProxy(null);
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.ICE_CREAM_SANDWICH){
-                Application app= (Application) mContext.getApplicationContext();
-                app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
-            }
-        }
+//        if ((boolean) SharedPreferencesUtils.get(mContext, "isInstallNewCert", false)) {
+//            initProxy(null);
+//            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+//                Application app= (Application) mContext.getApplicationContext();
+//                app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
+//            }
+//        }
     }
 
 
@@ -77,7 +77,7 @@ public class HttpCanaryFactory {
     }
 
 
-    public void initProxy(final CallBack callBack) {
+    public void initProxy(final CallBack callBack, final AbstractParam abstractParam) {
         try {
             forceMkdir(new File(Environment.getExternalStorageDirectory() + "/har"));
         } catch (IOException e) {
@@ -86,7 +86,7 @@ public class HttpCanaryFactory {
         ThreadPoolUtils.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                startProxy();
+                startProxy(abstractParam);
                 Intent intent = new Intent();
                 intent.setAction("proxyfinished");
                 mContext.sendBroadcast(intent);
@@ -102,27 +102,36 @@ public class HttpCanaryFactory {
         void onResult();
     }
 
-    private void startProxy() {
+    private void startProxy(AbstractParam abstractParam) {
         try {
-            proxy = new BrowserMobProxyServer();
+            proxy = new BrowserMobProxyServer(abstractParam);
             proxy.setTrustAllServers(true);
             proxy.start(proxyPort);
         } catch (Exception e) {
             Random rand = new Random();
             int randNum = rand.nextInt(1000) + 8000;
             proxyPort = randNum;
-            proxy = new BrowserMobProxyServer();
+            proxy = new BrowserMobProxyServer(abstractParam);
             proxy.setTrustAllServers(true);
             proxy.start(randNum);
         }
         proxy.enableHarCaptureTypes(CaptureType.REQUEST_HEADERS, CaptureType.REQUEST_COOKIES,
-                CaptureType.REQUEST_CONTENT,CaptureType.REQUEST_BINARY_CONTENT, CaptureType.RESPONSE_HEADERS,CaptureType.RESPONSE_COOKIES,
-                CaptureType.RESPONSE_CONTENT,CaptureType.RESPONSE_BINARY_CONTENT);
+                CaptureType.REQUEST_CONTENT, CaptureType.REQUEST_BINARY_CONTENT, CaptureType.RESPONSE_HEADERS, CaptureType.RESPONSE_COOKIES,
+                CaptureType.RESPONSE_CONTENT, CaptureType.RESPONSE_BINARY_CONTENT);
         String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA)
                 .format(new Date(System.currentTimeMillis()));
         proxy.newHar(time);
         isInitProxy = true;
-        ProxyUtils.setProxyLollipop(mContext, "127.0.0.1",proxyPort);
+        ProxyUtils.setProxyLollipop(mContext, "127.0.0.1", proxyPort);
 
+    }
+
+
+    public void stop() {
+        if (proxy != null) {
+            proxy.stop();
+        }
+        isInitProxy = false;
+        ProxyUtils.setProxyLollipop(mContext, "", 0);
     }
 }
