@@ -38,7 +38,8 @@ public class PreviewAdapter extends BaseAdapter {
         harEntryList.clear();
         notifyDataSetChanged();
     }
-    public void addList(HarEntry harEntry){
+
+    public void addList(HarEntry harEntry) {
         harLog = HttpCanary.getHttpCanaryFactory().getProxy().getHar().getLog();
         harEntryList.add(harEntry);
     }
@@ -95,13 +96,15 @@ public class PreviewAdapter extends BaseAdapter {
         }
         HarEntry harEntry = harEntryList.get(position);
         holder.tv.setText(harEntry.getRequest().getUrl());
-        holder.name.setText(TextUtils.isEmpty(harEntry.getPort2PackageName()) ? "未知" : harEntry.getPort2PackageName());
+        holder.name.setText(TextUtils.isEmpty(harEntry.getPort2PackageName()) ? "Unknown" : harEntry.getPort2PackageName());
         if (harEntry.getResponse().getStatus() > 400) {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
         } else if (harEntry.getResponse().getStatus() > 300) {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_directions_black_24dp));
         } else if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_photo_black_24dp));
+        } else if (harEntry.getResponse().getStatus() == 0) {
+            holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
         } else {
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
         }

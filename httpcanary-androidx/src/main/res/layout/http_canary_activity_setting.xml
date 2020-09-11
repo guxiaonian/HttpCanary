@@ -35,14 +35,14 @@
             android:background="@drawable/http_canary_setting_shape"
             android:text="@string/http_canary_setting_permission" />
 
-        <Button
-            android:id="@+id/http_canary_generate_btn"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:background="@drawable/http_canary_setting_shape"
-            android:enabled="false"
-            android:text="@string/http_canary_setting_generate" />
+<!--        <Button-->
+<!--            android:id="@+id/http_canary_generate_btn"-->
+<!--            android:layout_width="260dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="26dp"-->
+<!--            android:background="@drawable/http_canary_setting_shape"-->
+<!--            android:enabled="false"-->
+<!--            android:text="@string/http_canary_setting_generate" />-->
 
         <Button
             android:id="@+id/http_canary_download_btn"
@@ -59,7 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
             android:background="@drawable/http_canary_setting_shape"
-            android:enabled="false"
             android:text="@string/http_canary_setting_global" />
 
         <Button

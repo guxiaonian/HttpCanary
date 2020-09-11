@@ -40,7 +40,7 @@ public class SettingActivity extends Activity {
     private static final int RESULT_PERMISSIONS = 1;
     private Button btnPermission;
     private Button btnDownload;
-    private Button btnGenerate;
+//    private Button btnGenerate;
     private Button btnSu;
     private Button btnMigration;
     private Button btnGo;
@@ -57,7 +57,7 @@ public class SettingActivity extends Activity {
         btnMigration = findViewById(R.id.http_canary_etc_btn);
         btnGo = findViewById(R.id.http_canary_go_btn);
         btnGlobal = findViewById(R.id.http_canary_global_btn);
-        btnGenerate = findViewById(R.id.http_canary_generate_btn);
+//        btnGenerate = findViewById(R.id.http_canary_generate_btn);
         PackageUtils.setContext(getApplicationContext());
         if (PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             btnPermission.setEnabled(false);
@@ -76,12 +76,12 @@ public class SettingActivity extends Activity {
 //            btnDownload.setEnabled(true);
 //        }
 
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                insertPem();
-            }
-        });
+//        btnGenerate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                insertPem();
+//            }
+//        });
 
 //        if ((Boolean) SharedPreferencesUtils.get(this, "isInstallNewCert", false)) {
 //            btnDownload.setEnabled(false);
@@ -211,7 +211,7 @@ public class SettingActivity extends Activity {
 //            }
 //        });
 
-        btnGenerate.setEnabled(false);
+//        btnGenerate.setEnabled(false);
         btnDownload.setEnabled(true);
     }
 
@@ -292,7 +292,7 @@ public class SettingActivity extends Activity {
                 }
             }
             if (i == 0) {
-                btnGenerate.setEnabled(true);
+                btnDownload.setEnabled(true);
                 btnPermission.setEnabled(false);
             }
         }
