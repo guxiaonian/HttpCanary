@@ -23,15 +23,12 @@
 # 依赖
 
 ```gradle
-debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
-//androidX使用
-//debugImplementation  'fairy.easy.httpcanary:httpcanary-androidx:{latestVersion}'
-
+debugImplementation  'fairy.easy.httpcanary:httpcanary-androidx:{latestVersion}'
 ```
 
 # 注意事项
 
-1. targetSdkVersion设置为28以下
+1. targetSdkVersion设置为27及以下
 2. 添加1.8版本
 
 ```gradle
@@ -40,6 +37,4 @@ debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
         sourceCompatibility 1.8
     }
 ```
-
-# 与普通抓包工具区别
-本SDK目的是抓当前APP的数据流量, 重在开发APP的开发阶段进行测试使用。
+3. 添加`multiDexEnabled true`。
