@@ -60,7 +60,7 @@ public class HarDetailActivity extends Activity {
         addItem("Code", harResponse.getStatus() + "");
         addItem("TotalTime", harEntry.getTime() + "ms");
         addItem("StartTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
-                .format(harEntry.getStartedDateTime().getTime()) + "ms");
+                .format(harEntry.getStartedDateTime().getTime()));
         addItem("Size", harResponse.getBodySize() + "Bytes");
 
         if (harRequest.getQueryString().size() > 0) {

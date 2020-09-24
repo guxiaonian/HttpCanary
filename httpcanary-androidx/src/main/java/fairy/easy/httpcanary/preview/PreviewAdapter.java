@@ -12,14 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.lightbody.bmp.core.har.HarEntry;
-import net.lightbody.bmp.core.har.HarLog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.R;
 
 public class PreviewAdapter extends BaseAdapter {
@@ -78,6 +76,7 @@ public class PreviewAdapter extends BaseAdapter {
             holder.detailTextView = convertView.findViewById(R.id.http_canary_tv_detail);
             holder.iconView = convertView.findViewById(R.id.http_canary_iv_icon);
             holder.name = convertView.findViewById(R.id.http_canary_tv_name);
+            holder.imageViewTitle = convertView.findViewById(R.id.http_canary_iv_title);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
@@ -91,8 +90,12 @@ public class PreviewAdapter extends BaseAdapter {
             holder.name.setText("Unknown");
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
         }
-        holder.detailTextView.setText(String.format("Status:%d Size:%dBytes Time:%dms\n%s", harEntry.getResponse().getStatus(), harEntry.getResponse().getBodySize(), harEntry.getTime(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
-                .format(harEntry.getStartedDateTime().getTime())));
+        if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
+            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_photo_black_24dp));
+        } else {
+            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
+        }
+        holder.detailTextView.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(harEntry.getStartedDateTime().getTime()));
         return convertView;
     }
 
@@ -101,6 +104,7 @@ public class PreviewAdapter extends BaseAdapter {
         private TextView detailTextView;
         private ImageView iconView;
         private TextView name;
+        private ImageView imageViewTitle;
 
     }
 }
