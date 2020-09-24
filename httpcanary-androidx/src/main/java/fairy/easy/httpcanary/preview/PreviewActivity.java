@@ -6,15 +6,9 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-
 
 
 import net.lightbody.bmp.core.har.HarEntry;
@@ -28,33 +22,12 @@ import fairy.easy.httpcanary.util.LifecycleCallbacksUtils;
 public class PreviewActivity extends Activity {
     private PreviewAdapter previewAdapter;
     private ListView listView;
-    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.http_canary_activity_preview);
         listView = findViewById(R.id.http_canary_list);
-//        editText = findViewById(R.id.http_canary_et);
-//        editText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (!TextUtils.isEmpty(charSequence)) {
-//                    previewAdapter.getFilter().filter(charSequence);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
-        setTitle(String.format(getResources().getString(R.string.http_canary_title), getApplicationContext().getPackageName()));
         findViewById(R.id.http_canary_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,20 +74,6 @@ public class PreviewActivity extends Activity {
             Application app = (Application) getApplicationContext();
             app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
         }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        previewAdapter.setList();
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                previewAdapter.notifyDataSetChanged();
-//            }
-//        });
-
     }
 
     public void notifyHarChange() {

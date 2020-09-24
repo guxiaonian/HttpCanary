@@ -28,7 +28,7 @@ public class PackageUtils {
         PackageUtils.context = context;
     }
 
-    private static String getTcp(String portHex) {
+    private static PackageBean getTcp(String portHex) {
         String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex);
         Log.e(TAG, "tcp4 start");
         if (TextUtils.isEmpty(tcpResult)) {
@@ -42,8 +42,8 @@ public class PackageUtils {
                 if (i == 14) {
                     String uid = s.substring(76, 82).replace(" ", "");
                     Log.e(TAG, "tcp4 uid is: " + uid);
-                    String appName = getAppName(Integer.parseInt(uid));
-                    Log.e(TAG, "tcp4 app is: " + appName);
+                    PackageBean appName = getAppName(Integer.parseInt(uid));
+                    Log.e(TAG, "tcp4 app is: " + appName.getAppName());
                     return appName;
                 }
             }
@@ -51,7 +51,7 @@ public class PackageUtils {
         return null;
     }
 
-    private static String getTcp6(String portHex) {
+    private static PackageBean getTcp6(String portHex) {
         String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex);
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e(TAG, "tcp6 is null");
@@ -64,8 +64,8 @@ public class PackageUtils {
                 if (i == 38) {
                     String uid = s.substring(124, 130).replace(" ", "");
                     Log.e(TAG, "tcp6 uid is: " + uid);
-                    String appName = getAppName(Integer.parseInt(uid));
-                    Log.e(TAG, "tcp6 app is: " + appName);
+                    PackageBean appName = getAppName(Integer.parseInt(uid));
+                    Log.e(TAG, "tcp6 app is: " + appName.getAppName());
                     return appName;
                 }
             }
@@ -81,29 +81,29 @@ public class PackageUtils {
      *
      * @param port
      */
-    public synchronized static String getUid(int port) {
+    public synchronized static PackageBean getUid(int port) {
         Log.e(TAG, "port is: " + port);
         final String portHex = ":" + Integer.toHexString(port).toUpperCase();
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        Set<Callable<String>> callables = new HashSet<>();
-        callables.add(new Callable<String>() {
+        Set<Callable<PackageBean>> callables = new HashSet<>();
+        callables.add(new Callable<PackageBean>() {
             @Override
-            public String call() throws Exception {
+            public PackageBean call() throws Exception {
                 return getTcp(portHex);
             }
         });
-        callables.add(new Callable<String>() {
+        callables.add(new Callable<PackageBean>() {
             @Override
-            public String call() throws Exception {
+            public PackageBean call() throws Exception {
                 return getTcp6(portHex);
             }
         });
         try {
-            List<Future<String>> futures = executorService.invokeAll(callables);
-            for (Future<String> future : futures) {
+            List<Future<PackageBean>> futures = executorService.invokeAll(callables);
+            for (Future<PackageBean> future : futures) {
                 try {
-                    String result = future.get();
-                    if (!TextUtils.isEmpty(result)) {
+                    PackageBean result = future.get();
+                    if (result != null) {
                         return result;
                     }
                 } catch (ExecutionException e) {
@@ -116,13 +116,13 @@ public class PackageUtils {
         return null;
     }
 
-    private static String getAppName(int uid) {
+    private static PackageBean getAppName(int uid) {
         PackageManager pm = context.getPackageManager();
         String[] pkgs = pm.getPackagesForUid(uid);
         if (pkgs != null) {
             try {
                 ApplicationInfo appInfo = pm.getApplicationInfo(pkgs[0], PackageManager.GET_META_DATA);
-                return pm.getApplicationLabel(appInfo).toString();
+                return new PackageBean(pm.getApplicationIcon(appInfo.packageName), pm.getApplicationLabel(appInfo).toString());
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }

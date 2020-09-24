@@ -92,13 +92,20 @@
       <option name="myAdditionalJavadocTags" value="date" />
     </inspection_tool>
     <inspection_tool class="MapOrSetKeyShouldOverrideHashCodeEquals" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiAllowBackup" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiArpFile" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiAvoidApacheBeanUtilsCopy" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="XiaoMiCheckServerTrusted" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiCipherGetInstance" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiClipboardManager" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiDexClassLoader" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiExported" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiFileProvider" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="XiaoMiHostnameVerifier" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiHttpProtocol" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiIntentUrlScheme" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiLaunchAnyWhere" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiMiUiImei" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiPendingIntent" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiProductSecuritySignature" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="XiaoMiProviderOpenFile" enabled="false" level="CRITICAL" enabled_by_default="false" />

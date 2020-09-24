@@ -10,8 +10,10 @@
 
     <ImageView
         android:id="@+id/http_canary_iv_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_gravity="center" />
 
     <LinearLayout

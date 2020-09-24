@@ -1,6 +1,5 @@
 package fairy.easy.httpcanary.preview;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import net.lightbody.bmp.core.har.HarResponse;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import fairy.easy.httpcanary.HttpCanary;
 import fairy.easy.httpcanary.R;
 
 
@@ -36,35 +34,33 @@ public class HarDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.http_canary_activity_scrolling);
         linearLayout = findViewById(R.id.http_canary_ll_detailLayout);
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null) {
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//        }
-        try {
-            initHarLog(getIntent().getIntExtra("pos", -1));
-        } catch (Exception e) {
-            e.printStackTrace();
-            finish();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    initHarLog();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
-    public void initHarLog(int pos) {
-        HarLog harLog = HttpCanary.getHttpCanaryFactory().getProxy().getHar().getLog();
-        HarEntry harEntry = harLog.getEntries().get(pos);
-
+    public void initHarLog() {
+        HarEntry harEntry = PreviewAdapter.getHarEntry();
 
         HarRequest harRequest = harEntry.getRequest();
         HarResponse harResponse = harEntry.getResponse();
 
         addItem("Overview");
         addItem("URL", harRequest.getUrl());
-        setTitle(harRequest.getUrl());
-        addItem("ServerIP",harEntry.getServerIPAddress()+" ");
+        addItem("ServerIP", harEntry.getServerIPAddress() + " ");
         addItem("Method", harRequest.getMethod());
         addItem("Code", harResponse.getStatus() + "");
         addItem("TotalTime", harEntry.getTime() + "ms");
-        addItem("StartTime",  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
-                .format(harEntry.getStartedDateTime().getTime())+ "ms");
+        addItem("StartTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA)
+                .format(harEntry.getStartedDateTime().getTime()) + "ms");
         addItem("Size", harResponse.getBodySize() + "Bytes");
 
         if (harRequest.getQueryString().size() > 0) {
@@ -128,39 +124,47 @@ public class HarDetailActivity extends Activity {
 
     }
 
-    public void addItem(String title, final String value) {
-        View view = LayoutInflater.from(this).inflate(R.layout.http_canary_item_detail, null);
-
-        TextView textView = view.findViewById(R.id.http_canary_tv_title);
-        textView.setText(TextUtils.isEmpty(title) ? "placeholder" : title);
-
-        TextView valueTextView = view.findViewById(R.id.http_canary_tv_value);
-        valueTextView.setText(TextUtils.isEmpty(value) ? "placeholder" : value);
-
-        view.setOnClickListener(new View.OnClickListener() {
+    public void addItem(final String title, final String value) {
+        runOnUiThread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                if (value != null) {
-                    View textEntryView = LayoutInflater.from(HarDetailActivity.this).inflate(R.layout.http_canary_alert_textview, null);
-                    TextView edtInput = textEntryView.findViewById(R.id.http_canary_tv_content);
-                    edtInput.setText(value);
-                    new AlertDialog.Builder(HarDetailActivity.this)
-                            .setView(textEntryView)
-                            .setPositiveButton(getString(R.string.http_canary_yes), null)
-                            .show();
-                }
+            public void run() {
+                View view = LayoutInflater.from(HarDetailActivity.this).inflate(R.layout.http_canary_item_detail, null);
+
+                TextView textView = view.findViewById(R.id.http_canary_tv_title);
+                textView.setText(TextUtils.isEmpty(title) ? "placeholder" : title);
+
+                TextView valueTextView = view.findViewById(R.id.http_canary_tv_value);
+                valueTextView.setText(TextUtils.isEmpty(value) ? "placeholder" : value);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (value != null) {
+                            View textEntryView = LayoutInflater.from(HarDetailActivity.this).inflate(R.layout.http_canary_alert_textview, null);
+                            TextView edtInput = textEntryView.findViewById(R.id.http_canary_tv_content);
+                            edtInput.setText(value);
+                            new AlertDialog.Builder(HarDetailActivity.this)
+                                    .setView(textEntryView)
+                                    .setPositiveButton(getString(R.string.http_canary_yes), null)
+                                    .show();
+                        }
+                    }
+                });
+                linearLayout.addView(view);
             }
         });
-
-
-        linearLayout.addView(view);
     }
 
-    public void addItem(String cateName) {
-        View view = LayoutInflater.from(this).inflate(R.layout.http_canary_item_cate, null);
-        TextView textView = view.findViewById(R.id.http_canary_tv_catetitle);
-        textView.setText(cateName);
-        linearLayout.addView(view);
+    public void addItem(final String cateName) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                View view = LayoutInflater.from(HarDetailActivity.this).inflate(R.layout.http_canary_item_cate, null);
+                TextView textView = view.findViewById(R.id.http_canary_tv_catetitle);
+                textView.setText(cateName);
+                linearLayout.addView(view);
+            }
+        });
     }
 
     @Override
