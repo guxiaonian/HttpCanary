@@ -95,7 +95,7 @@ public class SettingActivity extends Activity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final String result = CommandUtils.getSingleInstance().exec("ps");
+                        final String result = CommandUtils.getSingleInstance().exec("ps",true);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

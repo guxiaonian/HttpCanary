@@ -73,7 +73,7 @@ public class SystemCertsUtils {
                 ";chcon -R `ls -Z /system/etc/security/cacerts | head -n1 | cut -d \" \" -f 1 ` " + fakeCertDir +
                 ";mount " + fakeCertDir + " /system/etc/security/cacerts/";
         Log.e("SSSSS", cmd);
-        CommandUtils.getSingleInstance().exec(cmd);
+        CommandUtils.getSingleInstance().exec(cmd,true);
         return true;
     }
 }

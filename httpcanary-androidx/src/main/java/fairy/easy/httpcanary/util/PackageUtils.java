@@ -29,7 +29,7 @@ public class PackageUtils {
     }
 
     private static PackageBean getTcp(String portHex) {
-        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex);
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp |grep " + portHex,false);
         Log.e(TAG, "tcp4 start");
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e(TAG, "tcp4 is null");
@@ -52,7 +52,7 @@ public class PackageUtils {
     }
 
     private static PackageBean getTcp6(String portHex) {
-        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex);
+        String tcpResult = CommandUtils.getSingleInstance().exec("cat /proc/net/tcp6 |grep " + portHex,false);
         if (TextUtils.isEmpty(tcpResult)) {
             Log.e(TAG, "tcp6 is null");
             return null;

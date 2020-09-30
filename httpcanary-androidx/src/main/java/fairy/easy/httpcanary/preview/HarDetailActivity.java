@@ -70,9 +70,11 @@ public class HarDetailActivity extends Activity {
             }
         }
 
-        addItem("Request Header");
-        for (HarNameValuePair pair : harRequest.getHeaders()) {
-            addItem(pair.getName(), pair.getDecodeValue());
+        if (harRequest.getHeaders().size() > 0) {
+            addItem("Request Header");
+            for (HarNameValuePair pair : harRequest.getHeaders()) {
+                addItem(pair.getName(), pair.getDecodeValue());
+            }
         }
 
         if (harRequest.getCookies().size() > 0) {
@@ -99,9 +101,11 @@ public class HarDetailActivity extends Activity {
             }
         }
 
-        addItem("Response Header");
-        for (HarNameValuePair pair : harResponse.getHeaders()) {
-            addItem(pair.getName(), pair.getDecodeValue());
+        if (harResponse.getHeaders().size() > 0) {
+            addItem("Response Header");
+            for (HarNameValuePair pair : harResponse.getHeaders()) {
+                addItem(pair.getName(), pair.getDecodeValue());
+            }
         }
 
         if (harResponse.getCookies().size() > 0) {
