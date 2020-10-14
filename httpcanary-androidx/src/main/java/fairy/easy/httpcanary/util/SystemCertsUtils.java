@@ -62,18 +62,26 @@ public class SystemCertsUtils {
     }
 
     public static boolean hasCertApp(Context context) {
-        return new File(context.getFilesDir() + "/cacerts/4bb9877f.0").exists();
+        return new File("/data/misc/user/0/cacerts-added/4bb9877f.0").exists();
     }
 
     private static boolean prepareRoot(Context context) {
-        String fakeCertDir = context.getFilesDir() + "/cacerts/";
-        String cmd = "umount /system/etc/security/cacerts;cp -pR /system/etc/security/cacerts " + context.getFilesDir() +
+        String targetFile = Environment.getExternalStorageDirectory() + "/fairyhttpcanary";
+        File tmpFile = new File(targetFile);
+        if (!tmpFile.exists()) {
+            tmpFile.mkdir();
+        }
+        String fakeCertDir = targetFile + "/cacerts/";
+        String cmd = "umount /system/etc/security/cacerts;cp -pR /system/etc/security/cacerts " + targetFile +
                 ";cp /data/misc/user/0/cacerts-added/4bb9877f.0 " + fakeCertDir +
-                ";chmod -R 755 " + fakeCertDir +
-                ";chcon -R `ls -Z /system/etc/security/cacerts | head -n1 | cut -d \" \" -f 1 ` " + fakeCertDir +
-                ";mount " + fakeCertDir + " /system/etc/security/cacerts/";
-        Log.e("SSSSS", cmd);
-        CommandUtils.getSingleInstance().exec(cmd,true);
+                ";mount " + fakeCertDir + " /system/etc/security/cacerts/;exit";
+        if (new File(fakeCertDir + "4bb9877f.0 ").exists()) {
+            cmd = "mount " + fakeCertDir + " /system/etc/security/cacerts/;exit";
+        }
+//        "mount /storage/emulated/0/fairyhttpcanary/cacerts/ /system/etc/security/cacerts/"
+        Log.e("SSSSSSS", cmd);
+        CommandUtils.getSingleInstance().exec(cmd, true);
         return true;
     }
+
 }

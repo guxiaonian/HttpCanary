@@ -17,18 +17,22 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import fairy.easy.httpcanary.HttpCanary;
+import fairy.easy.httpcanary.HttpCanaryFactory;
 import fairy.easy.httpcanary.R;
 import fairy.easy.httpcanary.util.CommandUtils;
 import fairy.easy.httpcanary.util.PackageUtils;
 import fairy.easy.httpcanary.util.PermissionsUtils;
+import fairy.easy.httpcanary.util.SettingConfig;
+import fairy.easy.httpcanary.util.SharedPreferencesUtils;
 import fairy.easy.httpcanary.util.SystemCertsUtils;
 
-public class SettingActivity extends Activity {
+public class SettingActivity extends Activity implements SettingConfig {
     private static final int RESULT_PERMISSIONS = 1;
     private Button btnPermission;
     private Button btnDownload;
@@ -42,31 +46,15 @@ public class SettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.http_canary_activity_setting);
+        PackageUtils.setContext(getApplicationContext());
         btnPermission = findViewById(R.id.http_canary_permission_btn);
         btnDownload = findViewById(R.id.http_canary_download_btn);
         btnSu = findViewById(R.id.http_canary_su_btn);
         btnMigration = findViewById(R.id.http_canary_etc_btn);
         btnGo = findViewById(R.id.http_canary_go_btn);
         btnGlobal = findViewById(R.id.http_canary_global_btn);
-        PackageUtils.setContext(getApplicationContext());
-        if (PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            btnPermission.setEnabled(false);
-        }
+        step1();
 
-        btnPermission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkPermission();
-            }
-        });
-
-
-        btnDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                installCert();
-            }
-        });
 
         btnGlobal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +76,11 @@ public class SettingActivity extends Activity {
 
         });
 
+        if ((boolean) SharedPreferencesUtils.get(this, "isHaveRoot", false)) {
+            btnSu.setEnabled(false);
+            btnMigration.setEnabled(!SystemCertsUtils.hasCert());
+        }
+
         btnSu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +88,7 @@ public class SettingActivity extends Activity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        final String result = CommandUtils.getSingleInstance().exec("ps",true);
+                        final String result = CommandUtils.getSingleInstance().exec("ps", true);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -104,6 +97,7 @@ public class SettingActivity extends Activity {
                                 }
                                 if (!TextUtils.isEmpty(result)) {
                                     btnSu.setEnabled(false);
+                                    SharedPreferencesUtils.put(getApplicationContext(), "isHaveRoot", true);
                                     btnMigration.setEnabled(!SystemCertsUtils.hasCert());
                                 }
                             }
@@ -116,28 +110,24 @@ public class SettingActivity extends Activity {
         btnMigration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SystemCertsUtils.hasCert()) {
-                    btnMigration.setEnabled(false);
-                } else {
-                    progressDialog = ProgressDialog.show(SettingActivity.this, null, "migration...");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SystemCertsUtils.buildSystemCerts(getApplicationContext());
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (progressDialog != null) {
-                                        progressDialog.dismiss();
-                                    }
-                                    if (SystemCertsUtils.hasCert()) {
-                                        btnMigration.setEnabled(false);
-                                    }
+                progressDialog = ProgressDialog.show(SettingActivity.this, null, "migration...");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SystemCertsUtils.buildSystemCerts(getApplicationContext());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
                                 }
-                            });
-                        }
-                    }).start();
-                }
+                                if (SystemCertsUtils.hasCert()) {
+                                    btnMigration.setEnabled(false);
+                                }
+                            }
+                        });
+                    }
+                }).start();
             }
         });
 
@@ -145,6 +135,101 @@ public class SettingActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), PreviewActivity.class));
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    //------------------------------------step1------------------------------------------
+    @Override
+    public void step1() {
+        if (PermissionsUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            btnPermission.setEnabled(false);
+            step2();
+        }
+        btnPermission.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPermission();
+            }
+        });
+    }
+
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            List<String> permissions = new ArrayList<>();
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (permissions.size() != 0) {
+                String[] permissionArray = new String[permissions.size()];
+                permissions.toArray(permissionArray);
+                requestPermissions(permissionArray, RESULT_PERMISSIONS);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == RESULT_PERMISSIONS) {
+            int i = 0;
+            for (int g : grantResults) {
+                if (g != PackageManager.PERMISSION_GRANTED) {
+                    i++;
+                    Toast.makeText(this, "Please give permission to enter the APP", Toast.LENGTH_LONG).show();
+                }
+            }
+            if (i == 0) {
+                btnPermission.setEnabled(false);
+                step2();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    //------------------------------------step1------------------------------------------
+
+
+    //------------------------------------step2------------------------------------------
+    @Override
+    public void step2() {
+        if ((boolean) SharedPreferencesUtils.get(this, "isInstallNewCert", false)) {
+            btnDownload.setEnabled(false);
+            btnGo.setEnabled(true);
+            return;
+        }
+        if (new File(Environment.getExternalStorageDirectory() + "/har/littleproxy-mitm.pem").exists() &&
+                new File(Environment.getExternalStorageDirectory() + "/har/littleproxy-mitm.p12").exists()) {
+            btnDownload.setEnabled(true);
+        } else {
+            progressDialog = ProgressDialog.show(SettingActivity.this, null, "loading...");
+            HttpCanary.getHttpCanaryFactory().initProxy(new HttpCanaryFactory.CallBack() {
+                @Override
+                public void onResult() {
+                    HttpCanary.getHttpCanaryFactory().stop();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (progressDialog != null) {
+                                progressDialog.dismiss();
+                            }
+                            btnDownload.setEnabled(true);
+                        }
+                    });
+                }
+            }, null);
+        }
+
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                installCert();
             }
         });
     }
@@ -188,52 +273,14 @@ public class SettingActivity extends Activity {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(this, "Installation Success", Toast.LENGTH_LONG).show();
                 btnDownload.setEnabled(false);
-                btnGlobal.setEnabled(true);
                 btnGo.setEnabled(true);
+                SharedPreferencesUtils.put(this, "isInstallNewCert", true);
             } else {
                 Toast.makeText(this, "Installation Fail", Toast.LENGTH_LONG).show();
+                SharedPreferencesUtils.put(this, "isInstallNewCert", false);
             }
         }
     }
-
-    private void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            List<String> permissions = new ArrayList<>();
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-            if (permissions.size() != 0) {
-                String[] permissionArray = new String[permissions.size()];
-                permissions.toArray(permissionArray);
-                requestPermissions(permissionArray, RESULT_PERMISSIONS);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
-        if (requestCode == RESULT_PERMISSIONS) {
-            int i = 0;
-            for (int g : grantResults) {
-                if (g != PackageManager.PERMISSION_GRANTED) {
-                    i++;
-                    Toast.makeText(this, "Please give permission to enter the APP", Toast.LENGTH_LONG).show();
-                }
-            }
-            if (i == 0) {
-                btnDownload.setEnabled(true);
-                btnPermission.setEnabled(false);
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
+    //------------------------------------step2------------------------------------------
 
 }

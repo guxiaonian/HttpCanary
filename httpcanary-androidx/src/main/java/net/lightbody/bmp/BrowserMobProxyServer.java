@@ -225,7 +225,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
     /**
      * The TrustSource that will be used to validate servers' certificates. If null, will not validate server certificates.
      */
-    private volatile TrustSource trustSource = TrustSource.defaultTrustSource();
+    private volatile TrustSource trustSource = null;
 
     /**
      * When true, use Elliptic Curve keys and certificates when impersonating upstream servers.
@@ -263,8 +263,9 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
     private volatile String chainedProxyCredentials;
 
     private AbstractParam abstractParam;
+
     public BrowserMobProxyServer(AbstractParam abstractParam) {
-        this.abstractParam=abstractParam;
+        this.abstractParam = abstractParam;
     }
 
     @Override
@@ -333,7 +334,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
             try {
                 bootstrap.withManInTheMiddle(new CertificateSniffingMitmManager(
                         new Authority()));
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -365,7 +366,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
                                 String chainedProxyAuth = chainedProxyCredentials;
                                 if (chainedProxyAuth != null) {
                                     if (httpObject instanceof HttpRequest) {
-                                        HttpHeaders.addHeader((HttpRequest)httpObject, HttpHeaders.Names.PROXY_AUTHORIZATION, "Basic " + chainedProxyAuth);
+                                        HttpHeaders.addHeader((HttpRequest) httpObject, HttpHeaders.Names.PROXY_AUTHORIZATION, "Basic " + chainedProxyAuth);
                                     }
                                 }
                             }
@@ -436,7 +437,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
     @Override
     public InetAddress getClientBindAddress() {
         if (started.get()) {
-            return proxyServer==null?null:proxyServer.getListenAddress()==null?null:proxyServer.getListenAddress().getAddress();
+            return proxyServer == null ? null : proxyServer.getListenAddress() == null ? null : proxyServer.getListenAddress().getAddress();
         } else {
             return null;
         }
@@ -445,7 +446,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
     @Override
     public int getPort() {
         if (started.get()) {
-            return proxyServer==null?0:proxyServer.getListenAddress()==null?0:proxyServer.getListenAddress().getPort();
+            return proxyServer == null ? 0 : proxyServer.getListenAddress() == null ? 0 : proxyServer.getListenAddress().getPort();
         } else {
             return 0;
         }
@@ -489,7 +490,7 @@ public class BrowserMobProxyServer implements BrowserMobProxy {
 
         harPageCount.set(0);
 
-        this.har = new Har(new HarLog(HAR_CREATOR_VERSION,this,abstractParam));
+        this.har = new Har(new HarLog(HAR_CREATOR_VERSION, this, abstractParam));
 
         newPage(initialPageRef, initialPageTitle);
 

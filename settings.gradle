@@ -1,2 +1,2 @@
-include ':app', ':httpcanary', ':httpcanary-androidx'
-rootProject.name='NetInfo'
+include ':app', ':httpcanary-androidx'
+rootProject.name = 'NetInfo'

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="http_canary_LogCanary.Base" parent="Theme.AppCompat.Light.DarkActionBar" >
-        <item name="colorPrimary">#FF000000</item>
-        <item name="colorPrimaryDark">#FF000000</item>
-    </style>
-
-</resources>
