@@ -16,7 +16,7 @@
 # 依赖
 
 ```gradle
-debugImplementation  'fairy.easy.httpcanary:httpcanary-androidx:{latestVersion}'
+debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
 ```
 
 # 注意事项

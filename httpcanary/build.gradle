@@ -102,7 +102,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "httpcanary"
-        name = "httpcanaryAndroidX"
+        name = "httpcanary"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
