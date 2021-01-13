@@ -72,9 +72,11 @@ public class PreviewActivity extends Activity {
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             Application app = (Application) getApplicationContext();
-            app.registerActivityLifecycleCallbacks(new LifecycleCallbacksUtils());
+            app.registerActivityLifecycleCallbacks(lifecycleCallbacks);
         }
     }
+
+    private final Application.ActivityLifecycleCallbacks lifecycleCallbacks = new LifecycleCallbacksUtils();
 
     public void notifyHarChange() {
         if (previewAdapter != null) {
@@ -85,6 +87,10 @@ public class PreviewActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            Application app = (Application) getApplicationContext();
+            app.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {

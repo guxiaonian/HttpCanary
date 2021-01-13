@@ -60,6 +60,27 @@
     <inspection_tool class="AlibabaUnsupportedExceptionWithModifyAsList" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="AlibabaUseQuietReferenceNotation" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="AlibabaUseRightCaseForDateFormat" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="AllowBackup" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="BroadCORSAllowOrigin" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="BroadcastReceiver" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="CSRFDisableHttp" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="ClipboardManager" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="CookieSensitive" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="DaoAuthenticationProvider" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="Debuggable" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="Dependencies" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="DeserializationHint" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="DexClassLoader" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="Exported" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="FastjsonAutoType" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="GetExternalStorageDirectory" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="HardcodedCredentials" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="HibernateSQLi" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="IntentExtra" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="IntentUrlScheme" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="IvParameterSpecSeed" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="JDBCSQLi" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="JacksonDatabindDefaultTyping" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="TOP_LEVEL_CLASS_OPTIONS">
         <value>
@@ -91,9 +112,50 @@
       <option name="IGNORE_POINT_TO_ITSELF" value="false" />
       <option name="myAdditionalJavadocTags" value="date" />
     </inspection_tool>
+    <inspection_tool class="KtWebView" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="KtWebViewDebugging" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="LDAPAnonymous" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="LDAPUnserialize" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="LaunchAnyWhere" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="MapOrSetKeyShouldOverrideHashCodeEquals" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="MybatisAnnotationSQLi" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="MybatisXmlSQLi" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="NettyResponseSplitting" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="OpenSAML2IgnoreComment" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="OsCommandInjection" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="OutdatedEncryptionInspector" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="PendingIntent" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="PermissionCheck" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="PermissionGroup" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="PlaceholderStringSQLi" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="PolyadicExpressionSQLi" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="PomConfig" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="PredictableSeed" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="PrintStackTrace" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="PublicControllerOnSpring" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="ReceiverFilter" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="RedirectResponse" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="RegexDos" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="ReplacePseudorandomGenerator" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="SQLiteDatabaseSQLi" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="SSRFHttp" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="SetWorldReadable" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="SignatureOrSystemPermissions" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="SpelExpressionParser" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="SpringBootProperties" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="SpringSecurityDebugEnabled" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="SpringSessionFixProtection" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="SslCertificateSocketFactoryGetInsecure" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="WeakHashInspector" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="WebView" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="WebViewClientOnReceivedSslError" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="WebViewWebContentsDebuggingEnabled" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XMLDecoderUnserialize" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XStreamUnserialize" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiAcceptsUserCertificates" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiAllowBackup" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="XiaoMiArpFile" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiAuthLeak" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiAvoidApacheBeanUtilsCopy" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="XiaoMiCheckServerTrusted" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiCipherGetInstance" enabled="false" level="BLOCKER" enabled_by_default="false" />
@@ -101,11 +163,13 @@
     <inspection_tool class="XiaoMiDexClassLoader" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiExported" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiFileProvider" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiHardcodedIp" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiHostnameVerifier" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiHttpProtocol" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiIntentUrlScheme" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiLaunchAnyWhere" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiMiUiImei" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiPaths" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiPendingIntent" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiProductSecuritySignature" enabled="false" level="BLOCKER" enabled_by_default="false" />
     <inspection_tool class="XiaoMiProviderOpenFile" enabled="false" level="CRITICAL" enabled_by_default="false" />
@@ -117,6 +181,10 @@
     <inspection_tool class="XiaoMiWebSettingsJavaScriptEnabled" enabled="false" level="MAJOR" enabled_by_default="false" />
     <inspection_tool class="XiaoMiWebViewClientOnReceivedSslError" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiWebViewWebContentsDebuggingEnabled" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XiaoMiWorldWriteableFiles" enabled="false" level="CRITICAL" enabled_by_default="false" />
     <inspection_tool class="XiaoMiZipEntry" enabled="false" level="CRITICAL" enabled_by_default="false" />
+    <inspection_tool class="XssPrompt" enabled="false" level="MAJOR" enabled_by_default="false" />
+    <inspection_tool class="XxeInspector" enabled="false" level="BLOCKER" enabled_by_default="false" />
+    <inspection_tool class="ZipEntry" enabled="false" level="MAJOR" enabled_by_default="false" />
   </profile>
 </component>

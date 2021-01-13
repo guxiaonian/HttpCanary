@@ -13,13 +13,6 @@
 </div>
 <br>
 
-# 效果展示
-
-![http_logo](./img/img1.jpg)
-
-![http_logo](./img/img2.jpg)
-
-
 # 依赖
 
 ```gradle

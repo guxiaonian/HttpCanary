@@ -16,7 +16,6 @@ public class SystemCertsUtils {
 //        if (!copy) {
 //            return false;
 //        }
-//        Log.e("SSSS","copy success");
         return prepareRoot(context);
     }
 
@@ -79,7 +78,6 @@ public class SystemCertsUtils {
             cmd = "mount " + fakeCertDir + " /system/etc/security/cacerts/;exit";
         }
 //        "mount /storage/emulated/0/fairyhttpcanary/cacerts/ /system/etc/security/cacerts/"
-        Log.e("SSSSSSS", cmd);
         CommandUtils.getSingleInstance().exec(cmd, true);
         return true;
     }

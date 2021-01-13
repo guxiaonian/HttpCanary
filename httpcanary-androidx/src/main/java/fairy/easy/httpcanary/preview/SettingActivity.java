@@ -135,6 +135,7 @@ public class SettingActivity extends Activity implements SettingConfig {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), PreviewActivity.class));
+                finish();
             }
         });
     }

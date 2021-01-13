@@ -87,10 +87,14 @@ public class PreviewAdapter extends BaseAdapter {
             holder.name.setText(harEntry.getPort2PackageName().getAppName());
             holder.iconView.setImageDrawable(harEntry.getPort2PackageName().getIcon());
         } else {
-            holder.name.setText("Unknown");
+            holder.name.setText("Unknown APP");
             holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
         }
-        if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
+        if (harEntry.getResponse().getStatus() > 400) {
+            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
+        } else if (harEntry.getResponse().getStatus() > 300) {
+            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_directions_black_24dp));
+        } else if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
             holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_photo_black_24dp));
         } else {
             holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
