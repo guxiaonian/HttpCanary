@@ -33,7 +33,6 @@ debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
 
 ## 界面展示
 
-![](./img/install.jpg)
 ![](./img/img1.jpg)
 ![](./img/img2.jpg)
 
