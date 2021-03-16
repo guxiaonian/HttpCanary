@@ -19,6 +19,24 @@
 debugImplementation  'fairy.easy.httpcanary:httpcanary:{latestVersion}'
 ```
 
+# 说明
+> 本产品以SDK的形式来获取本应用所有网络请求的详细信息。
+
+## 步骤说明
+
+1. 给予读写权限，生成证书
+2. 安装证书
+3. 开启全局代理，如果不开启，默认抓取当前应用的网络请求
+4. 给予本应用root权限，获取流量发送方的详细信息(手机需root)
+5. 证书迁移至系统目录下(手机需root)
+6. 开始抓包
+
+## 界面展示
+
+![](./img/install.jpg)
+![](./img/img1.jpg)
+![](./img/img2.jpg)
+
 # 注意事项
 
 1. targetSdkVersion设置为27及以下

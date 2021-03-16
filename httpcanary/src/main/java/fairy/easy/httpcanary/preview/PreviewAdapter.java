@@ -16,7 +16,6 @@ import net.lightbody.bmp.core.har.HarEntry;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import fairy.easy.httpcanary.R;
 
@@ -36,6 +35,7 @@ public class PreviewAdapter extends BaseAdapter {
 
     public void addList(HarEntry harEntry) {
         harEntryList.add(harEntry);
+        notifyDataSetChanged();
     }
 
     public static HarEntry harEntry;
@@ -73,6 +73,7 @@ public class PreviewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.http_canary_item_preview, null);
             holder = new Holder();
             holder.tv = convertView.findViewById(R.id.http_canary_tv_url);
+            holder.code = convertView.findViewById(R.id.http_canary_tv_code);
             holder.detailTextView = convertView.findViewById(R.id.http_canary_tv_detail);
             holder.iconView = convertView.findViewById(R.id.http_canary_iv_icon);
             holder.name = convertView.findViewById(R.id.http_canary_tv_name);
@@ -86,20 +87,30 @@ public class PreviewAdapter extends BaseAdapter {
         if (harEntry.getPort2PackageName() != null && harEntry.getPort2PackageName().getIcon() != null && !TextUtils.isEmpty(harEntry.getPort2PackageName().getAppName())) {
             holder.name.setText(harEntry.getPort2PackageName().getAppName());
             holder.iconView.setImageDrawable(harEntry.getPort2PackageName().getIcon());
+            if (harEntry.getResponse().getStatus() > 400) {
+                holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
+            } else if (harEntry.getResponse().getStatus() > 300) {
+                holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_directions_black_24dp));
+            } else if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
+                holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_photo_black_24dp));
+            } else {
+                holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
+            }
         } else {
-            holder.name.setText("Unknown APP");
-            holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
-        }
-        if (harEntry.getResponse().getStatus() > 400) {
-            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
-        } else if (harEntry.getResponse().getStatus() > 300) {
-            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_directions_black_24dp));
-        } else if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
-            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_photo_black_24dp));
-        } else {
-            holder.imageViewTitle.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
+            holder.name.setVisibility(View.GONE);
+            holder.imageViewTitle.setVisibility(View.GONE);
+            if (harEntry.getResponse().getStatus() > 400) {
+                holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_error_black_24dp));
+            } else if (harEntry.getResponse().getStatus() > 300) {
+                holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_directions_black_24dp));
+            } else if (harEntry.getResponse().getContent().getMimeType().contains("image")) {
+                holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_photo_black_24dp));
+            } else {
+                holder.iconView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.http_canary_ic_description_black_24dp));
+            }
         }
         holder.detailTextView.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(harEntry.getStartedDateTime().getTime()));
+        holder.code.setText(harEntry.getResponse().getStatus()+"");
         return convertView;
     }
 
@@ -108,6 +119,7 @@ public class PreviewAdapter extends BaseAdapter {
         private TextView detailTextView;
         private ImageView iconView;
         private TextView name;
+        private TextView code;
         private ImageView imageViewTitle;
 
     }

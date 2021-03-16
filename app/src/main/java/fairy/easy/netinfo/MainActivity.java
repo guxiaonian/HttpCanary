@@ -50,17 +50,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Volley.useVolley(getApplicationContext());
-                    }
-                }).start();
-            }
-        });
     }
 
 

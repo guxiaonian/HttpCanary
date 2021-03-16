@@ -26,8 +26,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            >
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/http_canary_tv_name"
@@ -53,13 +52,26 @@
             android:textColor="#000000"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/http_canary_tv_detail"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#444444"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/http_canary_tv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#444444"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/http_canary_tv_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:textColor="#444444"
+                android:textSize="12sp" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

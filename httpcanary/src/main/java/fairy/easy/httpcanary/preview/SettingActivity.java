@@ -271,15 +271,9 @@ public class SettingActivity extends Activity implements SettingConfig {
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
-            if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this, "Installation Success", Toast.LENGTH_LONG).show();
-                btnDownload.setEnabled(false);
-                btnGo.setEnabled(true);
-                SharedPreferencesUtils.put(this, "isInstallNewCert", true);
-            } else {
-                Toast.makeText(this, "Installation Fail", Toast.LENGTH_LONG).show();
-                SharedPreferencesUtils.put(this, "isInstallNewCert", false);
-            }
+            btnDownload.setEnabled(false);
+            btnGo.setEnabled(true);
+            SharedPreferencesUtils.put(this, "isInstallNewCert", true);
         }
     }
     //------------------------------------step2------------------------------------------
